@@ -1,0 +1,55 @@
+<template>
+    <header>
+      <img alt="Vue logo" class="logo" src="@/assets/logo.svg" width="50" height="50" />
+      <nav>
+        <router-link to="/about">About</router-link>
+        <router-link to="/">Home</router-link>
+      </nav>
+
+    </header>
+</template>
+
+<script>
+export default {
+
+}
+</script>
+
+<style scoped>
+header {
+  line-height: 1.5;
+  display: flex;
+  align-items: center;
+}
+
+.logo {
+}
+
+nav {
+  width: 100%;
+  font-size: 12px;
+  text-align: center;
+  padding-left: 8px;
+  padding-right: 8px;
+
+  display: flex;
+  align-items: center;
+}
+
+nav a.router-link-exact-active {
+  color: green;
+}
+
+nav a.router-link-exact-active:hover {
+  color: green;
+}
+
+nav a:hover {
+  color: green;
+}
+
+
+nav a:first-of-type {
+  border: 0;
+}
+</style>
