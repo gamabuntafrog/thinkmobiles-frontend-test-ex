@@ -1,5 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import Home from "../components/Home.vue";
+import Home from "../pages/Home.vue";
+import User from "../pages/User.vue";
+import NotFound from "../pages/NotFound.vue";
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -10,14 +12,14 @@ const router = createRouter({
       component: Home
     },
     {
-      path: '/user/:username',
-      name: 'UserByUsername',
-      component: () => import('../components/User.vue')
+      path: '/user/:id',
+      name: 'UserById',
+      component: User
     },
     {
       path: '/:pathMatch(.*)*',
       name: 'NotFound',
-      component: () => import('../components/NotFound.vue')
+      component: NotFound
     }
   ]
 })

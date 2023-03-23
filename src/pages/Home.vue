@@ -96,7 +96,7 @@
         </tr>
         <tr v-for="user in users">
           <td>
-            <router-link :to="{name: 'UserByUsername', params: {username: user.username}}">
+            <router-link :to="{name: 'UserById', params: {id: user._id}}">
               {{ user.username }}
             </router-link>
           </td>
@@ -280,21 +280,6 @@ section {
   padding-top: 20px;
 }
 
-table {
-  width: 100%;
-}
-
-th {
-  padding: 8px;
-}
-
-td {
-  padding: 3px;
-}
-
-td {
-  text-align: center;
-}
 
 .users-wrapper {
   margin-top: 20px;

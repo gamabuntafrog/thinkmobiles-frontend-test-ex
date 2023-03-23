@@ -48,6 +48,21 @@ input:focus.standard {
 
 }
 
+table {
+  width: 100%;
+}
+
+th {
+  padding: 8px;
+}
+
+td {
+  padding: 3px;
+}
+
+td {
+  text-align: center;
+}
 
 
 @media (min-width: 1024px) {
