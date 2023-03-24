@@ -4,7 +4,8 @@
         <img alt="Vue logo" class="logo" src="@/assets/logo.svg" width="50" height="50" />
       </router-link>
       <nav>
-        <router-link to="/">Home</router-link>
+        <router-link class="home" to="/">Home</router-link>
+        <router-link to="/register">Register</router-link>
       </nav>
 
     </header>
@@ -21,6 +22,8 @@ header {
   line-height: 1.5;
   display: flex;
   align-items: center;
+
+
 }
 
 .logo {
@@ -28,7 +31,7 @@ header {
 
 nav {
   width: 100%;
-  font-size: 12px;
+  font-size: 18px;
   text-align: center;
   padding-left: 8px;
   padding-right: 8px;
@@ -53,10 +56,19 @@ nav a:hover {
 nav a:first-of-type {
   border: 0;
 }
+
+.home {
+  margin-right: auto;
+}
+
 @media (max-width: 600px) {
 
   header {
     padding: 0px 0.8rem;
+  }
+  nav {
+    font-size: 12px;
+
   }
 }
 

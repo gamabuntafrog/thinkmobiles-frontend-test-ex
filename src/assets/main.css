@@ -5,8 +5,13 @@
     max-width: 1280px;
     margin: 0 auto;
     padding: 2rem;
-
+    height: 100vh;
+    min-height: 500px;
     font-weight: normal;
+}
+
+section {
+    height: calc(100% - 55px);
 }
 
 /*a, h1, h2, h3, h4, h5, h6, p, label {*/
@@ -27,7 +32,12 @@ a {
 
 
 @media (min-width: 1024px) {
-
+    header {
+        padding: 1rem;
+    }
+    section {
+        height: calc(100% - 90px);
+    }
     #app {
         padding: 0.3rem;
     }
@@ -38,4 +48,5 @@ a {
     #app {
         padding: 0.5rem;
     }
+
 }

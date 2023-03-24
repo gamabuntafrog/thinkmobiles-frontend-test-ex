@@ -1,0 +1,168 @@
+<template>
+  <section>
+    <div class="container">
+      <div class="left-container">
+        <h1>
+          Register
+        </h1>
+        <form @submit.prevent="submitForm">
+          <div class="input-wrapper">
+            <label :class="{error: v$.userForm.username?.$errors[0]}" for="username">
+              {{ v$.userForm.username?.$errors[0]?.$message || 'Username' }}
+            </label>
+            <input
+                v-model="userForm.username"
+                @blur="v$.userForm.username.$touch"
+                type="text"
+                id="username"
+                class="standard"
+            >
+          </div>
+          <div class="input-wrapper">
+            <label :class="{error: v$.userForm.password?.$errors[0]}" for="password">
+              {{ v$.userForm.password?.$errors[0]?.$message || 'Password' }}
+            </label>
+            <input
+                v-model="userForm.password"
+                @blur="v$.userForm.password.$touch"
+                type="password"
+                id="password"
+                class="standard"
+            >
+          </div>
+          <button type="submit" class="standard submit">
+            Submit
+          </button>
+        </form>
+      </div>
+      <div class="right-container">
+        <img alt="Vue logo" class="logo" src="@/assets/logo.svg" width="300" height="300"/>
+      </div>
+
+    </div>
+  </section>
+</template>
+
+<script>
+import useVuelidate from "@vuelidate/core";
+import {email, maxLength, minLength, numeric, required} from "@vuelidate/validators";
+import axios from "../api";
+
+export default {
+  name: 'Register',
+  setup() {
+    return {
+      v$: useVuelidate()
+    }
+  },
+  data() {
+    return {
+      userForm: {
+        username: '',
+        password: ''
+      },
+      isLoading: false,
+    }
+  },
+  methods: {
+    async submitForm() {
+      const tryValidate = await this.v$.$validate()
+      if (!tryValidate) return;
+
+      this.isLoading = true;
+
+      const formData = this.userForm;
+      this.resetForm();
+
+      try {
+        const {data} = await axios.post('auth', formData);
+
+        console.log(data)
+      } catch (e) {
+        alert(`Error: ${e?.response?.data?.message || 'Error'}`)
+
+        console.log(e)
+      } finally {
+        this.isLoading = false;
+      }
+
+    },
+    resetForm() {
+      this.userForm = {
+        username: '',
+        password: ''
+      }
+    },
+  },
+  validations() {
+    return {
+      userForm: {
+        username: {
+          required,
+          minLengthValue: minLength(3),
+          maxLengthValue: maxLength(16)
+        },
+        password: {
+          required,
+          minLengthValue: minLength(3),
+          maxLengthValue: maxLength(30)
+        }
+      }
+    }
+  }
+}
+</script>
+
+<style lang="scss" scoped>
+
+h1 {
+  font-size: 30px;
+}
+
+.left-container,
+.right-container {
+  width: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.left-container {
+  display: flex;
+  flex-direction: column;
+}
+
+.container {
+  display: flex;
+  height: 100%;
+  justify-content: center;
+  align-items: center;
+}
+
+form {
+  padding: 8px;
+}
+
+.input-wrapper {
+  margin-bottom: 8px;
+  margin-top: 4px;
+
+}
+
+.submit {
+  margin-top: 16px;
+}
+
+label {
+  display: block;
+}
+
+label.error {
+  color: firebrick;
+}
+
+body {
+  background-color: blanchedalmond;
+}
+
+</style>
