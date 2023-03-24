@@ -1,19 +1,34 @@
 <template>
-    <header>
-      <router-link style="margin: 0; padding: 0" to="/">
-        <img alt="Vue logo" class="logo" src="@/assets/logo.svg" width="50" height="50" />
+  <header>
+    <router-link style="margin: 0; padding: 0" to="/">
+      <img alt="Vue logo" class="logo" src="@/assets/logo.svg" width="50" height="50"/>
+    </router-link>
+    <nav v-if="$store.state.isLoggedIn">
+      <router-link class="home" to="/">Home</router-link>
+      <router-link class="router-link-exact-active" to="/">
+        {{ this.$store.state.username }}
       </router-link>
-      <nav>
-        <router-link class="home" to="/">Home</router-link>
-        <router-link to="/register">Register</router-link>
-      </nav>
-
-    </header>
+      <router-link to="/" @click="logout">
+        <button class="standard">
+          Exit
+        </button>
+      </router-link>
+    </nav>
+    <nav v-else>
+      <router-link class="home" to="/">Home</router-link>
+      <router-link to="/login">Login</router-link>
+      <router-link to="/register">Register</router-link>
+    </nav>
+  </header>
 </template>
 
 <script>
 export default {
-
+  methods: {
+    async logout() {
+      this.$store.commit('logout')
+    }
+  }
 }
 </script>
 
@@ -66,6 +81,7 @@ nav a:first-of-type {
   header {
     padding: 0px 0.8rem;
   }
+
   nav {
     font-size: 12px;
 

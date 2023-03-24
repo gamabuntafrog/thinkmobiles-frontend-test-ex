@@ -3,6 +3,8 @@ import Home from "../pages/Home.vue";
 import User from "../pages/User.vue";
 import NotFound from "../pages/NotFound.vue";
 import Register from "../pages/Register.vue";
+import Login from "../pages/Login.vue";
+import store from "../store";
 
 const router = createRouter({
     history: createWebHistory(import.meta.env.BASE_URL),
@@ -28,7 +30,17 @@ const router = createRouter({
             name: 'Register',
             component: Register,
             meta: {
-                title: 'Register'
+                title: 'Register',
+                hiddenForAuth: true
+            }
+        },
+        {
+            path: '/login',
+            name: 'Login',
+            component: Login,
+            meta: {
+                title: 'Login',
+                hiddenForAuth: true
             }
         },
         {
@@ -44,9 +56,18 @@ const router = createRouter({
 
 const DEFAULT_TITLE = 'V';
 
-router.beforeEach((to, from) => {
+router.beforeEach((to, from, next) => {
+    const isLoggedIn = store.state.isLoggedIn
+    const isHiddenForAuth = to.matched.some(record => record.meta.hiddenForAuth)
+    console.log(isLoggedIn, isHiddenForAuth)
+    if (isHiddenForAuth && isLoggedIn) {
+
+        next({path: '/'})
+    }
 
     document.title = to?.meta?.title || DEFAULT_TITLE;
+
+    next()
 });
 
 export default router

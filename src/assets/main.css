@@ -8,8 +8,12 @@
     height: 100vh;
     min-height: 500px;
     font-weight: normal;
+    overflow: auto;
 }
+.app-wrapper {
+    height: 100%;
 
+}
 section {
     height: calc(100% - 55px);
 }
@@ -39,7 +43,7 @@ a {
         height: calc(100% - 90px);
     }
     #app {
-        padding: 0.3rem;
+        padding: 1rem;
     }
 }
 

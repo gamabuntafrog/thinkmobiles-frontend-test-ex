@@ -5,14 +5,23 @@ export default {
   components: {Header},
   data() {
     return {}
+  },
+  beforeCreate() {
+    this.$store.commit('initStore')
   }
 }
 </script>
 
 <template>
-  <Header/>
-
-  <RouterView/>
+  <div class="loader" v-if="$store.state.isUserLoading">
+    <h1>
+      Loading...
+    </h1>
+  </div>
+  <div class="app-wrapper" v-else>
+    <Header/>
+    <RouterView/>
+  </div>
 </template>
 
 <style lang="scss">
@@ -67,7 +76,12 @@ td {
   border-top: 2px solid green;
 }
 
-
+.loader {
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 
 @media (min-width: 1024px) {
 

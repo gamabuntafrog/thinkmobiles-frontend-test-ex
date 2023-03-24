@@ -201,7 +201,7 @@ export default {
 
 
       try {
-        await axios.post(`events/${this.$route.params.id}/validateDate`, formData)
+        await axios.post(`events/users/${this.user._id}/validateDate`, formData)
 
         this.isFormForEventsOpen = false;
         this.resetForm();

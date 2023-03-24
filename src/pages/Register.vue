@@ -2,8 +2,11 @@
   <section>
     <div class="container">
       <div class="left-container">
-        <h1>
+        <h1 v-if="!isLoading">
           Register
+        </h1>
+        <h1 v-else>
+          Loading...
         </h1>
         <form @submit.prevent="submitForm">
           <div class="input-wrapper">
@@ -46,7 +49,6 @@
 <script>
 import useVuelidate from "@vuelidate/core";
 import {email, maxLength, minLength, numeric, required} from "@vuelidate/validators";
-import axios from "../api";
 
 export default {
   name: 'Register',
@@ -72,12 +74,10 @@ export default {
       this.isLoading = true;
 
       const formData = this.userForm;
-      this.resetForm();
-
+      console.log(formData)
       try {
-        const {data} = await axios.post('auth', formData);
 
-        console.log(data)
+        this.$store.commit('register', formData)
       } catch (e) {
         alert(`Error: ${e?.response?.data?.message || 'Error'}`)
 
@@ -141,11 +141,13 @@ h1 {
 
 form {
   padding: 8px;
+  width: 60%;
 }
 
 .input-wrapper {
-  margin-bottom: 8px;
+  margin-bottom: 16px;
   margin-top: 4px;
+
 
 }
 

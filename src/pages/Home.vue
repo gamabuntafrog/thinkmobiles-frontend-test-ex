@@ -1,152 +1,159 @@
 <template>
-  <head>
-    <title>
-      Home
-    </title>
-  </head>
   <section>
-    <h1>Home</h1>
-    <button v-if="!isFormOpen" class="standard" @click="isFormOpen = true">
-      Create user
-    </button>
-    <button v-else class="standard" @click="isFormOpen = false">
-      Close
-    </button>
-    <div class="form-wrapper" v-if="isFormOpen">
-      <h2>Creating User</h2>
-      <form @submit.prevent="submitForm">
-        <div class="input-wrapper">
-          <label :class="{error: v$.userForm.username?.$errors[0]}" for="username">
-            {{ v$.userForm.username?.$errors[0]?.$message || 'Username' }}
-          </label>
-          <input
-              v-model="userForm.username"
-              @blur="v$.userForm.username.$touch"
-              type="text"
-              id="username"
-              class="standard"
-          >
-        </div>
-        <div class="input-wrapper">
-          <label :class="{error: v$.userForm.firstName?.$errors[0]}" for="firstName">
-            {{ v$.userForm.firstName?.$errors[0]?.$message || 'First name' }}
-          </label>
-          <input
-              v-model="userForm.firstName"
-              @blur="v$.userForm.firstName.$touch"
-              type="text"
-              id="firstName"
-              class="standard"
-          >
-        </div>
-        <div class="input-wrapper">
-          <label :class="{error: v$.userForm.lastName?.$errors[0]}" for="lastName">
-            {{ v$.userForm.lastName?.$errors[0]?.$message || 'Last name' }}
-          </label>
-          <input
-              v-model="userForm.lastName"
-              @blur="v$.userForm.lastName.$touch"
-              type="text"
-              id="lastName"
-              class="standard"
-          >
-        </div>
-        <div class="input-wrapper">
-          <label :class="{error: v$.userForm.email?.$errors[0]}" for="email">
-            {{ v$.userForm.email?.$errors[0]?.$message || 'Email' }}
-          </label>
-          <input
-              v-model="userForm.email"
-              @blur="v$.userForm.email.$touch"
-              type="email"
-              id="email"
-              class="standard"
-          >
-        </div>
-        <div class="input-wrapper">
-          <label :class="{error: v$.userForm.phoneNumber?.$errors[0]}" for="phoneNumber">
-            {{ v$.userForm.phoneNumber?.$errors[0]?.$message || 'Phone number' }}
-          </label>
-          <input
-              v-model="userForm.phoneNumber"
-              @blur="v$.userForm.phoneNumber.$touch"
-              type="tel"
-              id="phoneNumber"
-              class="standard"
-          >
-        </div>
-        <button type="submit" class="standard submit">
-          Create
-        </button>
-      </form>
+    <div v-if="$store.state.isLoggedIn">
+      <h1>Home</h1>
+      <button v-if="!isFormOpen" class="standard" @click="isFormOpen = true">
+        Create user
+      </button>
+      <button v-else class="standard" @click="isFormOpen = false">
+        Close
+      </button>
+      <div class="form-wrapper" v-if="isFormOpen">
+        <h2>Creating User</h2>
+        <form @submit.prevent="submitForm">
+          <div class="input-wrapper">
+            <label :class="{error: v$.userForm.username?.$errors[0]}" for="username">
+              {{ v$.userForm.username?.$errors[0]?.$message || 'Username' }}
+            </label>
+            <input
+                v-model="userForm.username"
+                @blur="v$.userForm.username.$touch"
+                type="text"
+                id="username"
+                class="standard"
+            >
+          </div>
+          <div class="input-wrapper">
+            <label :class="{error: v$.userForm.firstName?.$errors[0]}" for="firstName">
+              {{ v$.userForm.firstName?.$errors[0]?.$message || 'First name' }}
+            </label>
+            <input
+                v-model="userForm.firstName"
+                @blur="v$.userForm.firstName.$touch"
+                type="text"
+                id="firstName"
+                class="standard"
+            >
+          </div>
+          <div class="input-wrapper">
+            <label :class="{error: v$.userForm.lastName?.$errors[0]}" for="lastName">
+              {{ v$.userForm.lastName?.$errors[0]?.$message || 'Last name' }}
+            </label>
+            <input
+                v-model="userForm.lastName"
+                @blur="v$.userForm.lastName.$touch"
+                type="text"
+                id="lastName"
+                class="standard"
+            >
+          </div>
+          <div class="input-wrapper">
+            <label :class="{error: v$.userForm.email?.$errors[0]}" for="email">
+              {{ v$.userForm.email?.$errors[0]?.$message || 'Email' }}
+            </label>
+            <input
+                v-model="userForm.email"
+                @blur="v$.userForm.email.$touch"
+                type="email"
+                id="email"
+                class="standard"
+            >
+          </div>
+          <div class="input-wrapper">
+            <label :class="{error: v$.userForm.phoneNumber?.$errors[0]}" for="phoneNumber">
+              {{ v$.userForm.phoneNumber?.$errors[0]?.$message || 'Phone number' }}
+            </label>
+            <input
+                v-model="userForm.phoneNumber"
+                @blur="v$.userForm.phoneNumber.$touch"
+                type="tel"
+                id="phoneNumber"
+                class="standard"
+            >
+          </div>
+          <button type="submit" class="standard submit">
+            Create
+          </button>
+        </form>
+      </div>
+      <div v-if="users.length && !isUsersLoading" class="users-wrapper">
+        <table>
+          <tr>
+            <th>
+              Username
+            </th>
+            <th>
+              First name
+            </th>
+            <th>
+              Last name
+            </th>
+            <th>
+              Email
+            </th>
+            <th>
+              Phone number
+            </th>
+            <th>
+              Next event date
+            </th>
+            <th>
+              Events count
+            </th>
+          </tr>
+          <tr v-for="user in users">
+            <td class="username">
+              <router-link :to="{name: 'UserById', params: {id: user._id}}">
+                {{ user.username }}
+              </router-link>
+            </td>
+            <td>
+              {{ user.firstName }}
+            </td>
+            <td>
+              {{ user.lastName }}
+            </td>
+            <td>
+              {{ user.email }}
+            </td>
+            <td>
+              {{ user.phoneNumber }}
+            </td>
+            <td>
+              {{ getDate(user.nextEventDate) }}
+            </td>
+            <td>
+              {{ user.eventsCount }}
+            </td>
+          </tr>
+        </table>
+        <ul v-if="pages > 1" class="pages-list">
+          <li class="pages-list" :class="{active: index === currentPage}" v-for="(_, index) in pagesList">
+            <button @click="this.currentPage = index" class="standard">
+              {{index + 1}}
+            </button>
+          </li>
+        </ul>
+      </div>
+      <div v-else-if="isUsersLoading">
+        <h2 style="margin: 50px">
+          Loading users...
+        </h2>
+      </div>
+      <div v-else-if="isUsersError">
+        <h2 style="margin: 50px">
+          Error
+        </h2>
+      </div>
+      <div v-else>
+        <h2 style="margin: 50px">
+          Table is clear, you can add users in form above
+        </h2>
+      </div>
     </div>
-    <div v-if="users.length && !isUsersLoading" class="users-wrapper">
-      <table>
-        <tr>
-          <th>
-            Username
-          </th>
-          <th>
-            First name
-          </th>
-          <th>
-            Last name
-          </th>
-          <th>
-            Email
-          </th>
-          <th>
-            Phone number
-          </th>
-          <th>
-            Next event date
-          </th>
-          <th>
-            Events count
-          </th>
-        </tr>
-        <tr v-for="user in users">
-          <td class="username">
-            <router-link :to="{name: 'UserById', params: {id: user._id}}">
-              {{ user.username }}
-            </router-link>
-          </td>
-          <td>
-            {{ user.firstName }}
-          </td>
-          <td>
-            {{ user.lastName }}
-          </td>
-          <td>
-            {{ user.email }}
-          </td>
-          <td>
-            {{ user.phoneNumber }}
-          </td>
-          <td>
-            {{ getDate(user.nextEventDate) }}
-          </td>
-          <td>
-            {{ user.eventsCount }}
-          </td>
-        </tr>
-      </table>
-    </div>
-    <div v-else-if="isUsersLoading">
-      <h2 style="margin: 50px">
-        Loading users...
-      </h2>
-    </div>
-    <div v-else-if="isUsersError">
-      <h2 style="margin: 50px">
-        Error
-      </h2>
-    </div>
-    <div v-else>
-      <h2 style="margin: 50px">
-        Table is clear, you can add users in form above
-      </h2>
-    </div>
+    <h1 v-else style="font-size: 50px">
+      Hello, please login
+    </h1>
   </section>
 </template>
 
@@ -154,12 +161,18 @@
 import useVuelidate from "@vuelidate/core";
 import {required, email, minLength, maxLength, numeric} from '@vuelidate/validators'
 import axios from "../api";
+import store from "../store";
 
 export default {
   name: 'Home',
   setup() {
     return {
       v$: useVuelidate()
+    }
+  },
+  computed: {
+    pagesList() {
+      return Array.from({length: this.pages})
     }
   },
   data() {
@@ -173,6 +186,8 @@ export default {
         username: ''
       },
       users: [],
+      pages: 0,
+      currentPage: 0,
       isUsersLoading: true,
       isUsersError: false
     }
@@ -199,15 +214,24 @@ export default {
 
     },
     async getUsers() {
+      if (!this.$store.state.isLoggedIn) return;
+
       try {
         this.isUsersLoading = true;
 
-        const {data} = await axios.get('users');
+        const {data} = await axios.get('users', {
+          params: {
+            page: this.currentPage
+          }
+        });
 
-        console.log(data.users)
+        console.log(data)
 
-        this.users = data.users
+        this.users = data.users;
+        this.pages = data.pages;
         this.isUsersError = false;
+
+        console.log(this.pagesList)
       } catch (e) {
         console.log(e)
 
@@ -215,7 +239,6 @@ export default {
       } finally {
         this.isUsersLoading = false;
       }
-
     },
     resetForm() {
       this.userForm = {
@@ -238,6 +261,9 @@ export default {
     this.getUsers()
   },
   watch: {
+    currentPage() {
+      this.getUsers()
+    }
   },
   validations() {
     return {
@@ -274,7 +300,6 @@ export default {
 <style lang="scss" scoped>
 
 
-
 .form-wrapper {
   padding: 8px;
 }
@@ -302,7 +327,7 @@ label.error {
 }
 
 section {
-  padding-top: 20px;
+  padding: 1rem;
 }
 
 
@@ -318,6 +343,28 @@ section {
   }
 
   &:hover a, &:hover {
+    color: green;
+  }
+}
+
+.pages-list {
+  display: flex;
+  list-style-type: none;
+  justify-content: center;
+  margin-top: 10px;
+  margin-bottom: 20px;
+  padding: 0;
+
+  li {
+    margin-left: 8px;
+    button {
+      color: var(--main-text);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+  }
+  li.active button {
     color: green;
   }
 }
