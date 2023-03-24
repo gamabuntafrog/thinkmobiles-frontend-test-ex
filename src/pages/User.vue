@@ -116,7 +116,7 @@
         </h2>
       </div>
     </div>
-    <div v-else-if="isUserLoading">
+    <div v-else-if="isUserLoading || isEventsLoading">
       <h1>Loading...</h1>
     </div>
     <div v-else>
@@ -197,10 +197,15 @@ export default {
       formData.startDate = new Date(formData.startDate)
       formData.endDate = new Date(formData.endDate)
 
-      this.isFormForEventsOpen = false;
-      this.resetForm();
+
+
 
       try {
+        await axios.post(`events/${this.$route.params.id}/validateDate`, formData)
+
+        this.isFormForEventsOpen = false;
+        this.resetForm();
+
         await axios.post(`events/users/${this.user._id}`, formData)
 
         await this.getUser();
@@ -231,9 +236,11 @@ export default {
         title: {
           required,
           minLengthValue: minLength(3),
+          maxLengthValue: maxLength(30),
         },
         description: {
           required,
+          maxLengthValue: maxLength(60),
         },
         startDate: {
           required,
@@ -306,6 +313,13 @@ label.error {
 
 table {
   margin-top: 20px;
+}
+
+@media (max-width: 600px) {
+
+  td, th {
+    padding: 3px;
+  }
 }
 
 </style>

@@ -36,7 +36,7 @@
         </div>
         <div class="input-wrapper">
           <label :class="{error: v$.userForm.lastName?.$errors[0]}" for="lastName">
-            {{ v$.userForm.lastName?.$errors[0]?.$message || 'LastName' }}
+            {{ v$.userForm.lastName?.$errors[0]?.$message || 'Last name' }}
           </label>
           <input
               v-model="userForm.lastName"
@@ -60,7 +60,7 @@
         </div>
         <div class="input-wrapper">
           <label :class="{error: v$.userForm.phoneNumber?.$errors[0]}" for="phoneNumber">
-            {{ v$.userForm.phoneNumber?.$errors[0]?.$message || 'PhoneNumber' }}
+            {{ v$.userForm.phoneNumber?.$errors[0]?.$message || 'Phone number' }}
           </label>
           <input
               v-model="userForm.phoneNumber"
@@ -93,9 +93,15 @@
           <th>
             Phone number
           </th>
+          <th>
+            Next event date
+          </th>
+          <th>
+            Events count
+          </th>
         </tr>
         <tr v-for="user in users">
-          <td>
+          <td class="username">
             <router-link :to="{name: 'UserById', params: {id: user._id}}">
               {{ user.username }}
             </router-link>
@@ -111,6 +117,12 @@
           </td>
           <td>
             {{ user.phoneNumber }}
+          </td>
+          <td>
+            {{ getDate(user.nextEventDate) }}
+          </td>
+          <td>
+            {{ user.eventsCount }}
           </td>
         </tr>
       </table>
@@ -190,12 +202,13 @@ export default {
         console.log(data.users)
 
         this.users = data.users
-        this.isUsersLoading = false;
-
+        this.isUsersError = false;
       } catch (e) {
         console.log(e)
 
         this.isUsersError = true;
+      } finally {
+        this.isUsersLoading = false;
       }
 
     },
@@ -207,6 +220,13 @@ export default {
         phoneNumber: '',
         username: ''
       }
+    },
+    getDate(date) {
+      if (!date) return 'Unknown';
+
+      return new Intl.DateTimeFormat('en-us', {
+        dateStyle: 'short',
+      }).format(new Date(date))
     }
   },
   mounted() {
@@ -246,7 +266,7 @@ export default {
 }
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
 
 
 
@@ -283,6 +303,25 @@ section {
 
 .users-wrapper {
   margin-top: 20px;
+}
+
+.username {
+  text-decoration: underline;
+
+  a {
+    font-weight: bolder;
+  }
+
+  &:hover a, &:hover {
+    color: green;
+  }
+}
+
+@media (max-width: 600px) {
+
+  td, th {
+    padding: 3px;
+  }
 }
 
 </style>

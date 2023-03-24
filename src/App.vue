@@ -54,15 +54,19 @@ table {
 
 th {
   padding: 8px;
+  color: green;
+
 }
 
 td {
-  padding: 3px;
+  padding: 12px;
 }
 
 td {
   text-align: center;
+  border-top: 2px solid green;
 }
+
 
 
 @media (min-width: 1024px) {

@@ -1,8 +1,9 @@
 <template>
     <header>
-      <img alt="Vue logo" class="logo" src="@/assets/logo.svg" width="50" height="50" />
+      <router-link style="margin: 0; padding: 0" to="/">
+        <img alt="Vue logo" class="logo" src="@/assets/logo.svg" width="50" height="50" />
+      </router-link>
       <nav>
-        <router-link to="/about">About</router-link>
         <router-link to="/">Home</router-link>
       </nav>
 
@@ -52,4 +53,11 @@ nav a:hover {
 nav a:first-of-type {
   border: 0;
 }
+@media (max-width: 600px) {
+
+  header {
+    padding: 0px 0.8rem;
+  }
+}
+
 </style>
