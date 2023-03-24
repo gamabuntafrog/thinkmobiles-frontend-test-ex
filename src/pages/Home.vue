@@ -1,4 +1,9 @@
 <template>
+  <head>
+    <title>
+      Home
+    </title>
+  </head>
   <section>
     <h1>Home</h1>
     <button v-if="!isFormOpen" class="standard" @click="isFormOpen = true">
