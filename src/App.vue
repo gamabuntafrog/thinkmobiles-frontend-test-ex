@@ -83,6 +83,28 @@ td {
   align-items: center;
 }
 
+.pages-list {
+  display: flex;
+  list-style-type: none;
+  justify-content: center;
+  margin-top: 10px;
+  margin-bottom: 20px;
+  padding: 0;
+
+  li {
+    margin-left: 8px;
+    button {
+      color: var(--main-text);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+  }
+  li.active button {
+    color: green;
+  }
+}
+
 @media (min-width: 1024px) {
 
 }

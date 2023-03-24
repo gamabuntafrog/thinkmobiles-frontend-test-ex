@@ -109,6 +109,13 @@
             </td>
           </tr>
         </table>
+        <ul v-if="pages > 1" class="pages-list">
+          <li class="pages-list" :class="{active: index === currentPage}" v-for="(_, index) in pagesList">
+            <button @click="this.currentPage = index" class="standard">
+              {{index + 1}}
+            </button>
+          </li>
+        </ul>
       </div>
       <div v-else>
         <h2 style="margin: 50px">
@@ -144,6 +151,8 @@ export default {
       isUserLoadingError: false,
       isFormForEventsOpen: false,
       events: null,
+      pages: 0,
+      currentPage: 0,
       isEventsLoading: true,
       isEventsLoadingError: false,
       eventForm: {
@@ -152,6 +161,11 @@ export default {
         startDate: '',
         endDate: ''
       }
+    }
+  },
+  computed: {
+    pagesList() {
+      return Array.from({length: this.pages})
     }
   },
   methods: {
@@ -174,9 +188,14 @@ export default {
     async getEvents() {
       try {
         const id = this.$route.params.id;
-        const {data} = await axios.get(`events/users/${id}`);
+        const {data} = await axios.get(`events/users/${id}`, {
+          params: {
+            page: this.currentPage
+          }
+        });
 
         this.events = data.events;
+        this.pages = data.pages;
         this.isEventsLoadingError = false;
 
       } catch (e) {
@@ -189,16 +208,12 @@ export default {
     },
     async addEvent() {
       const tryValidate = await this.v$.$validate()
-      console.log(this.eventForm)
       if (!tryValidate) return;
 
       const formData = this.eventForm;
-      console.log(formData)
+
       formData.startDate = new Date(formData.startDate)
       formData.endDate = new Date(formData.endDate)
-
-
-
 
       try {
         await axios.post(`events/users/${this.user._id}/validateDate`, formData)
@@ -211,7 +226,6 @@ export default {
         await this.getUser();
         await this.getEvents();
       } catch (e) {
-        alert(`Error: ${e?.response?.data?.message || 'Error'}`)
 
         console.log(e)
       }
@@ -228,6 +242,11 @@ export default {
       return new Intl.DateTimeFormat('en-us', {
         dateStyle: 'short',
       }).format(new Date(date))
+    }
+  },
+  watch: {
+    currentPage() {
+      this.getEvents()
     }
   },
   validations() {
