@@ -1,16 +1,17 @@
 import ax from "axios";
+import baseUrl from "../utils/baseUrl";
 
 const axios = ax.create({
-    baseURL: 'http://localhost:3001/',
+    baseURL: baseUrl,
     headers: {
         'Content-Type': 'application/json'
     }
 })
 
-axios.interceptors.response.use(function (response) {
+axios.interceptors.response.use((response) => {
 
     return response.data;
-}, function (error) {
+}, (error) => {
 
     return Promise.reject(error);
 });
