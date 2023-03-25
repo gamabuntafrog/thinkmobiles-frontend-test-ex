@@ -343,8 +343,18 @@ export default {
 
 <style lang="scss" scoped>
 
+th {
+  padding: 12px;
+
+}
+
+td {
+  padding: 7px;
+}
+
 section {
   padding: 20px;
+  padding-bottom: 0;
 }
 
 .username {

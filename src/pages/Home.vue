@@ -380,10 +380,11 @@ label.error {
 
 section {
   padding: 1rem;
+  padding-bottom: 0;
 }
 
 section > div {
-  margin-top: 10vh;
+  margin-top: 7vh;
 }
 
 .label-name {

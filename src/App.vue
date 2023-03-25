@@ -89,7 +89,6 @@ td {
   list-style-type: none;
   justify-content: center;
   margin-top: 10px;
-  margin-bottom: 20px;
   padding: 0;
 
   li {
