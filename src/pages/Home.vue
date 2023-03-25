@@ -127,7 +127,7 @@
               </td>
             </tr>
           </table>
-          <p style="color: #606060; cursor: default">
+          <p class="reminder">
             *Click on the field name in table head for sorting;
           </p>
         </div>

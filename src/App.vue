@@ -93,6 +93,7 @@ td {
 
   li {
     margin-left: 8px;
+
     button {
       color: var(--main-text);
       display: flex;
@@ -100,6 +101,7 @@ td {
       align-items: center;
     }
   }
+
   li.active button {
     color: green;
   }
@@ -110,13 +112,19 @@ td {
   height: 300px;
 }
 
+.reminder {
+  color: #606060;
+  cursor: default;
+}
 
 @media (max-width: 768px) {
-
- .logo-for-form {
-   width: 150px;
-   height: 150px;
- }
+  .reminder {
+    font-size: 12px;
+  }
+  .logo-for-form {
+    width: 150px;
+    height: 150px;
+  }
 }
 
 @media (min-width: 1024px) {
