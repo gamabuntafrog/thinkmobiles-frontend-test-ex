@@ -79,7 +79,7 @@ nav a:first-of-type {
 @media (max-width: 600px) {
 
   header {
-    padding: 0px 0.8rem;
+    padding: 0 0.8rem;
   }
 
   nav {
