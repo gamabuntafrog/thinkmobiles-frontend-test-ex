@@ -18,9 +18,6 @@ section {
     height: calc(100% - 55px);
 }
 
-/*a, h1, h2, h3, h4, h5, h6, p, label {*/
-/*    color: var(--main-text);*/
-/*}*/
 * {
     color: var(--main-text);
 }
@@ -31,9 +28,6 @@ a {
     margin: 8px;
     padding: 4px;
 }
-
-
-
 
 @media (min-width: 1024px) {
     header {
