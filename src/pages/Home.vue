@@ -127,6 +127,9 @@
               </td>
             </tr>
           </table>
+          <p style="color: #606060; cursor: default">
+            *Click on the field name in table head for sorting;
+          </p>
         </div>
         <ul v-if="pages > 1" class="pages-list">
           <li class="pages-list" :class="{active: index === currentPage}" v-for="(_, index) in pagesList">
