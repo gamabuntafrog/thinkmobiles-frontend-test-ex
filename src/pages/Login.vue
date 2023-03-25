@@ -39,7 +39,7 @@
         </form>
       </div>
       <div class="right-container">
-        <img alt="Vue logo" class="logo" src="@/assets/logo.svg" width="300" height="300"/>
+        <img alt="Vue logo" class="logo-for-form" src="@/assets/logo.svg" />
       </div>
 
     </div>
@@ -163,6 +163,23 @@ label.error {
 
 body {
   background-color: blanchedalmond;
+}
+
+
+
+@media (max-width: 768px) {
+  .right-container {
+    display: none;
+  }
+  .left-container{
+    width: 100%;
+  }
+
+}
+@media (max-width: 400px) {
+  form {
+    width: 80%;
+  }
 }
 
 </style>

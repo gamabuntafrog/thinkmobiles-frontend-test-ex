@@ -105,6 +105,20 @@ td {
   }
 }
 
+.logo-for-form {
+  width: 300px;
+  height: 300px;
+}
+
+
+@media (max-width: 768px) {
+
+ .logo-for-form {
+   width: 150px;
+   height: 150px;
+ }
+}
+
 @media (min-width: 1024px) {
 
 }
