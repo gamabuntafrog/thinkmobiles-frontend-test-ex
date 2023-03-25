@@ -153,6 +153,7 @@
 import axios from "../api";
 import {email, helpers, maxLength, maxValue, minLength, minValue, numeric, required} from "@vuelidate/validators";
 import useVuelidate from "@vuelidate/core";
+import router from "@/router";
 
 export default {
   name: 'UserById',
@@ -171,7 +172,7 @@ export default {
       isEventsLoading: true,
       isEventsLoadingError: false,
       pages: 0,
-      currentPage: 0,
+      currentPage: this.$route.query.page || 0,
       sortBy: null,
       variant: 'desc',
       eventForm: {
@@ -228,6 +229,7 @@ export default {
       try {
         this.isEventsLoading = true;
         const id = this.$route.params.id;
+
         const {data} = await axios.get(`events/users/${id}`, {
           params: {
             page: this.currentPage,
@@ -293,7 +295,8 @@ export default {
     }
   },
   watch: {
-    currentPage() {
+    currentPage(page) {
+      router.push({query: { page: page}})
       this.getEvents()
     },
     variant() {
@@ -332,6 +335,7 @@ export default {
   mounted() {
     this.getUser()
     this.getEvents()
+    router.push({query: { page: 0 }})
   },
 
 }
