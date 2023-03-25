@@ -48,7 +48,7 @@
 
 <script>
 import useVuelidate from "@vuelidate/core";
-import {email, maxLength, minLength, numeric, required} from "@vuelidate/validators";
+import {email, helpers, maxLength, minLength, numeric, required} from "@vuelidate/validators";
 
 export default {
   name: 'Register',
@@ -98,14 +98,14 @@ export default {
     return {
       userForm: {
         username: {
-          required,
-          minLengthValue: minLength(3),
-          maxLengthValue: maxLength(16)
+          required: helpers.withMessage('Username cannot be empty', required),
+          minLength: helpers.withMessage(({$params}) => `Min length of username ${$params.min}`,  minLength(3)),
+          maxLength: helpers.withMessage(({$params}) => `Max length of username ${$params.max}`,  maxLength(16)),
         },
         password: {
-          required,
-          minLengthValue: minLength(3),
-          maxLengthValue: maxLength(30)
+          required: helpers.withMessage('Password cannot be empty', required),
+          minLength: helpers.withMessage(({$params}) => `Min length of username ${$params.min}`,  minLength(3)),
+          maxLength: helpers.withMessage(({$params}) => `Max length of username ${$params.max}`,  maxLength(30)),
         }
       }
     }
