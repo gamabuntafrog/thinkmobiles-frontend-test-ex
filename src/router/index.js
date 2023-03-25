@@ -22,7 +22,8 @@ const router = createRouter({
             name: 'UserById',
             component: User,
             meta: {
-                title: 'User'
+                title: 'User',
+                hiddenForNotAuth: true
             }
         },
         {
@@ -59,10 +60,16 @@ const DEFAULT_TITLE = 'V';
 router.beforeEach((to, from, next) => {
     const isLoggedIn = store.state.isLoggedIn
     const isHiddenForAuth = to.matched.some(record => record.meta.hiddenForAuth)
+    const isHiddenForNotAuth = to.matched.some(record => record.meta.hiddenForNotAuth)
 
     if (isHiddenForAuth && isLoggedIn) {
-
         next({path: '/'})
+        return;
+    }
+
+    if (isHiddenForNotAuth && !isLoggedIn) {
+        next({path: '/'})
+        return;
     }
 
     document.title = to?.meta?.title || DEFAULT_TITLE;
