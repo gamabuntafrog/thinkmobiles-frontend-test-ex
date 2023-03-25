@@ -82,23 +82,21 @@
             <tr>
               <th
                   v-for="item in lablesList"
-                  @click="
-                  variant = variant === 'asc' && sortBy === item.fieldName ? 'desc' : 'asc';
-                  sortBy = item.fieldName"
+                  @click="changeSortingField(item.fieldName)"
               >
-               <div style="display: flex; justify-content: center; align-items: center; cursor: pointer">
-                 <p class="label-name" :class="{active: sortBy === item.fieldName}">
-                   {{ item.label }}
-                 </p>
-                 <button v-if="sortBy === item.fieldName" style="all: unset">
-                   <img
-                       v-if="variant === 'desc'"
-                       src="../assets/arrow-down.svg"
-                       alt="arrow down"
-                   />
-                   <img v-else src="../assets/arrow-top.svg" alt="arrow down"/>
-                 </button>
-               </div>
+                <div class="label-wrapper">
+                  <p class="label-name" :class="{active: sortBy === item.fieldName}">
+                    {{ item.label }}
+                  </p>
+                  <button v-if="sortBy === item.fieldName" class="arrow-wrapper">
+                    <img
+                        v-if="variant === 'desc'"
+                        src="../assets/arrow-down.svg"
+                        alt="arrow down"
+                    />
+                    <img v-else src="../assets/arrow-top.svg" alt="arrow down"/>
+                  </button>
+                </div>
               </th>
             </tr>
             <tr v-for="user in users">
@@ -132,9 +130,9 @@
           </p>
         </div>
         <ul v-if="pages > 1" class="pages-list">
-          <li class="pages-list" :class="{active: index === currentPage}" v-for="(_, index) in pagesList">
-            <button @click="this.currentPage = index" class="standard">
-              {{ index + 1 }}
+          <li class="pages-list" :class="{active: index === currentPage}" v-for="(page, index) in pagesList">
+            <button @click="changePage(index)" class="standard">
+              {{ page }}
             </button>
           </li>
         </ul>
@@ -176,7 +174,7 @@ export default {
   },
   computed: {
     pagesList() {
-      return Array.from({length: this.pages})
+      return Array.from({length: this.pages}, (v, index) => index + 1)
     },
     lablesList() {
       return [
@@ -190,7 +188,7 @@ export default {
         },
         {
           fieldName: 'lastName',
-          label: 'lastName'
+          label: 'Last Name'
         },
         {
           fieldName: 'email',
@@ -295,6 +293,13 @@ export default {
       return new Intl.DateTimeFormat('en-us', {
         dateStyle: 'short',
       }).format(new Date(date))
+    },
+    changePage(page) {
+      this.currentPage = page;
+    },
+    changeSortingField(fieldName) {
+      this.variant = this.variant === 'asc' && this.sortBy === fieldName ? 'desc' : 'asc';
+      this.sortBy = fieldName
     }
   },
   mounted() {
@@ -305,11 +310,9 @@ export default {
       this.getUsers()
     },
     variant() {
-      console.log(this.variant)
       this.getUsers()
     },
     sortBy() {
-      console.log(this.sortBy)
       this.getUsers()
     }
   },
@@ -389,6 +392,14 @@ section > div {
   }
 }
 
+.label-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer
+
+}
+
 p.active {
   color: green;
 }
@@ -419,6 +430,12 @@ th {
   }
 }
 
+.arrow-wrapper {
+  all: unset;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 
 @media (max-width: 600px) {
 

@@ -2,9 +2,8 @@
 import Header from "./components/Header.vue";
 
 export default {
-  components: {Header},
-  data() {
-    return {}
+  components: {
+    Header
   },
   beforeCreate() {
     this.$store.commit('initStore')
@@ -13,14 +12,16 @@ export default {
 </script>
 
 <template>
-  <div class="loader" v-if="$store.state.isUserLoading">
-    <h1>
-      Loading...
-    </h1>
-  </div>
-  <div class="app-wrapper" v-else>
-    <Header/>
-    <RouterView/>
+  <div class="app-wrapper">
+    <div class="loader" v-if="$store.state.isUserLoading">
+      <h1>
+        Loading...
+      </h1>
+    </div>
+    <div style="height: 100%;" v-else>
+      <Header/>
+      <RouterView/>
+    </div>
   </div>
 </template>
 

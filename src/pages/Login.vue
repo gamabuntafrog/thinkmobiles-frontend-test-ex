@@ -170,6 +170,7 @@ body {
 @media (max-width: 768px) {
   .right-container {
     display: none;
+
   }
   .left-container{
     width: 100%;

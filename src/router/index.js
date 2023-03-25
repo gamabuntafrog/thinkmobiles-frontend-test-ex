@@ -59,7 +59,7 @@ const DEFAULT_TITLE = 'V';
 router.beforeEach((to, from, next) => {
     const isLoggedIn = store.state.isLoggedIn
     const isHiddenForAuth = to.matched.some(record => record.meta.hiddenForAuth)
-    console.log(isLoggedIn, isHiddenForAuth)
+
     if (isHiddenForAuth && isLoggedIn) {
 
         next({path: '/'})

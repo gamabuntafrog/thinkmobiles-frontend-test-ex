@@ -74,21 +74,27 @@
           </button>
         </form>
       </div>
-      <div  v-if="events.length > 0" class="events-wrapper">
+      <div v-if="events.length > 0 && !isEventsLoading" class="events-wrapper">
         <div class="table-wrapper">
           <table>
             <tr>
-              <th>
-                Title
-              </th>
-              <th>
-                Description
-              </th>
-              <th>
-                Start date
-              </th>
-              <th>
-                End date
+              <th
+                  v-for="item in lablesList"
+                  @click="changeSortingField(item.fieldName)"
+              >
+                <div class="label-wrapper">
+                  <p class="label-name" :class="{active: sortBy === item.fieldName}">
+                    {{ item.label }}
+                  </p>
+                  <button v-if="sortBy === item.fieldName" class="arrow-wrapper">
+                    <img
+                        v-if="variant === 'desc'"
+                        src="../assets/arrow-down.svg"
+                        alt="arrow down"
+                    />
+                    <img v-else src="../assets/arrow-top.svg" alt="arrow down"/>
+                  </button>
+                </div>
               </th>
             </tr>
             <tr v-for="event in events">
@@ -112,12 +118,17 @@
           </table>
         </div>
         <ul v-if="pages > 1" class="pages-list">
-          <li class="pages-list" :class="{active: index === currentPage}" v-for="(_, index) in pagesList">
-            <button @click="this.currentPage = index" class="standard">
-              {{index + 1}}
+          <li class="pages-list" :class="{active: index === currentPage}" v-for="(page, index) in pagesList">
+            <button @click="changePage(index)" class="standard">
+              {{ page }}
             </button>
           </li>
         </ul>
+      </div>
+      <div v-else-if="isEventsLoading">
+        <h1 style="padding: 20px;">
+          Loading events...
+        </h1>
       </div>
       <div v-else>
         <h2 style="margin: 50px">
@@ -153,10 +164,12 @@ export default {
       isUserLoadingError: false,
       isFormForEventsOpen: false,
       events: null,
-      pages: 0,
-      currentPage: 0,
       isEventsLoading: true,
       isEventsLoadingError: false,
+      pages: 0,
+      currentPage: 0,
+      sortBy: null,
+      variant: 'desc',
       eventForm: {
         title: '',
         description: '',
@@ -167,7 +180,27 @@ export default {
   },
   computed: {
     pagesList() {
-      return Array.from({length: this.pages})
+      return Array.from({length: this.pages}, (v, index) => index + 1)
+    },
+    lablesList() {
+      return [
+        {
+          label: 'Title',
+          fieldName: 'title'
+        },
+        {
+          label: 'Description',
+          fieldName: 'description'
+        },
+        {
+          label: 'Start date',
+          fieldName: 'startDate'
+        },
+        {
+          label: 'End date',
+          fieldName: 'endDate'
+        },
+      ]
     }
   },
   methods: {
@@ -189,17 +222,19 @@ export default {
     },
     async getEvents() {
       try {
+        this.isEventsLoading = true;
         const id = this.$route.params.id;
         const {data} = await axios.get(`events/users/${id}`, {
           params: {
-            page: this.currentPage
+            page: this.currentPage,
+            sortBy: this.sortBy,
+            variant: this.variant
           }
         });
 
         this.events = data.events;
         this.pages = data.pages;
         this.isEventsLoadingError = false;
-
       } catch (e) {
         console.log(e)
 
@@ -244,10 +279,23 @@ export default {
       return new Intl.DateTimeFormat('en-us', {
         dateStyle: 'short',
       }).format(new Date(date))
+    },
+    changePage(page) {
+      this.currentPage = page;
+    },
+    changeSortingField(fieldName) {
+      this.variant = this.variant === 'asc' && this.sortBy === fieldName ? 'desc' : 'asc';
+      this.sortBy = fieldName
     }
   },
   watch: {
     currentPage() {
+      this.getEvents()
+    },
+    variant() {
+      this.getEvents()
+    },
+    sortBy() {
       this.getEvents()
     }
   },
@@ -281,7 +329,8 @@ export default {
   mounted() {
     this.getUser()
     this.getEvents()
-  }
+  },
+
 }
 </script>
 
@@ -318,6 +367,31 @@ form {
   margin-bottom: 8px;
   margin-top: 4px;
 
+}
+
+.label-name {
+  &:hover {
+    color: green;
+  }
+}
+
+.label-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer
+
+}
+
+p.active {
+  color: green;
+}
+
+.arrow-wrapper {
+  all: unset;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .submit {
