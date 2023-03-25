@@ -30,6 +30,7 @@
               {{ v$.eventForm.title?.$errors[0]?.$message || 'Title' }}
             </label>
             <input
+                @blur="v$.eventForm.title.$touch"
                 id="title"
                 v-model="eventForm.title"
                 type="text"
@@ -41,6 +42,7 @@
               {{ v$.eventForm.description?.$errors[0]?.$message || 'Description' }}
             </label>
             <input
+                @blur="v$.eventForm.description.$touch"
                 id="description"
                 v-model="eventForm.description"
                 type="text"
@@ -52,6 +54,7 @@
               {{ v$.eventForm.startDate?.$errors[0]?.$message || 'Start date' }}
             </label>
             <input
+                @blur="v$.eventForm.startDate.$touch"
                 id="startDate"
                 v-model="eventForm.startDate"
                 type="date"
@@ -63,6 +66,7 @@
               {{ v$.eventForm.endDate?.$errors[0]?.$message || 'End date' }}
             </label>
             <input
+                @blur="v$.eventForm.endDate.$touch"
                 id="endDate"
                 v-model="eventForm.endDate"
                 type="date"
@@ -147,7 +151,7 @@
 
 <script>
 import axios from "../api";
-import {email, maxLength, maxValue, minLength, minValue, numeric, required} from "@vuelidate/validators";
+import {email, helpers, maxLength, maxValue, minLength, minValue, numeric, required} from "@vuelidate/validators";
 import useVuelidate from "@vuelidate/core";
 
 export default {
@@ -303,22 +307,21 @@ export default {
     return {
       eventForm: {
         title: {
-          required,
-          minLengthValue: minLength(3),
-          maxLengthValue: maxLength(30),
+          required: helpers.withMessage('Title cannot be empty', required),
+          minLength: helpers.withMessage(({$params}) => `Min length of title ${$params.min}`,  minLength(3)),
+          maxLength: helpers.withMessage(({$params}) => `Max length of title ${$params.max}`,  maxLength(30)),
         },
         description: {
-          required,
-          maxLengthValue: maxLength(60),
+          maxLength: helpers.withMessage(({$params}) => `Max length of description ${$params.max}`,  maxLength(60)),
         },
         startDate: {
-          required,
+          required: helpers.withMessage('Start date cannot be empty', required),
           maxValue(value) {
             return new Date(this.eventForm.endDate) > new Date(value);
           }
         },
         endDate: {
-          required,
+          required: helpers.withMessage('End date cannot be empty', required),
           minValue(value) {
             return new Date(this.eventForm.startDate) < new Date(value);
           }

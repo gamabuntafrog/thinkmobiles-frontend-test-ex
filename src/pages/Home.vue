@@ -161,7 +161,7 @@
 
 <script>
 import useVuelidate from "@vuelidate/core";
-import {required, email, minLength, maxLength, numeric} from '@vuelidate/validators'
+import {required, email, minLength, maxLength, numeric, helpers} from '@vuelidate/validators'
 import axios from "../api";
 import arrowDown from '../assets/arrow-down.svg';
 
@@ -320,26 +320,26 @@ export default {
     return {
       userForm: {
         firstName: {
-          required,
-          minLengthValue: minLength(3),
-          maxLengthValue: maxLength(14)
+          required: helpers.withMessage('First name cannot be empty', required),
+          minLength: helpers.withMessage(({$params}) => `Min length of first name ${$params.min}`,  minLength(3)),
+          maxLength: helpers.withMessage(({$params}) => `Max length of first name ${$params.max}`,  maxLength(14)),
         },
         lastName: {
-          required,
-          minLengthValue: minLength(3),
-          maxLengthValue: maxLength(14)
+          required: helpers.withMessage('Last name cannot be empty', required),
+          minLength: helpers.withMessage(({$params}) => `Min length of last name ${$params.min}`,  minLength(3)),
+          maxLength: helpers.withMessage(({$params}) => `Max length of last name ${$params.max}`,  maxLength(14)),
         },
         username: {
-          required,
-          minLengthValue: minLength(3),
-          maxLengthValue: maxLength(16)
+          required: helpers.withMessage('Username cannot be empty', required),
+          minLength: helpers.withMessage(({$params}) => `Min length of username ${$params.min}`,  minLength(3)),
+          maxLength: helpers.withMessage(({$params}) => `Max length of username ${$params.max}`,  maxLength(16)),
         },
         email: {
-          required,
+          required: helpers.withMessage('Email cannot be empty', required),
           email
         },
         phoneNumber: {
-          required,
+          required: helpers.withMessage('Phone number cannot be empty', required),
           numeric
         }
       }
