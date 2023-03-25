@@ -62,6 +62,8 @@ router.beforeEach((to, from, next) => {
     const isHiddenForAuth = to.matched.some(record => record.meta.hiddenForAuth)
     const isHiddenForNotAuth = to.matched.some(record => record.meta.hiddenForNotAuth)
 
+    document.title = to?.meta?.title || DEFAULT_TITLE;
+
     if (isHiddenForAuth && isLoggedIn) {
         next({path: '/'})
         return;
@@ -72,7 +74,6 @@ router.beforeEach((to, from, next) => {
         return;
     }
 
-    document.title = to?.meta?.title || DEFAULT_TITLE;
 
     next()
 });
