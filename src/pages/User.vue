@@ -74,41 +74,43 @@
           </button>
         </form>
       </div>
-      <div class="table-wrapper" v-if="events.length > 0">
-        <table>
-          <tr>
-            <th>
-              Title
-            </th>
-            <th>
-              Description
-            </th>
-            <th>
-              Start date
-            </th>
-            <th>
-              End date
-            </th>
-          </tr>
-          <tr v-for="event in events">
-            <td>
-              {{ event.title }}
-            </td>
-            <td>
-              {{ event.description }}
-            </td>
-            <td>
-              {{
-                getDate(event.startDate)
-              }}
-            </td>
-            <td>
-              {{
-                getDate(event.endDate)
-              }}
-            </td>
-          </tr>
-        </table>
+      <div  v-if="events.length > 0" class="events-wrapper">
+        <div class="table-wrapper">
+          <table>
+            <tr>
+              <th>
+                Title
+              </th>
+              <th>
+                Description
+              </th>
+              <th>
+                Start date
+              </th>
+              <th>
+                End date
+              </th>
+            </tr>
+            <tr v-for="event in events">
+              <td>
+                {{ event.title }}
+              </td>
+              <td>
+                {{ event.description }}
+              </td>
+              <td>
+                {{
+                  getDate(event.startDate)
+                }}
+              </td>
+              <td>
+                {{
+                  getDate(event.endDate)
+                }}
+              </td>
+            </tr>
+          </table>
+        </div>
         <ul v-if="pages > 1" class="pages-list">
           <li class="pages-list" :class="{active: index === currentPage}" v-for="(_, index) in pagesList">
             <button @click="this.currentPage = index" class="standard">
@@ -332,6 +334,11 @@ label.error {
 
 table {
   margin-top: 20px;
+}
+
+.table-wrapper {
+  width: 100%;
+  overflow-x: auto;
 }
 
 @media (max-width: 600px) {

@@ -77,56 +77,58 @@
         </form>
       </div>
       <div v-if="users.length && !isUsersLoading" class="users-wrapper">
-        <table>
-          <tr>
-            <th>
-              Username
-            </th>
-            <th>
-              First name
-            </th>
-            <th>
-              Last name
-            </th>
-            <th>
-              Email
-            </th>
-            <th>
-              Phone number
-            </th>
-            <th>
-              Next event date
-            </th>
-            <th>
-              Events count
-            </th>
-          </tr>
-          <tr v-for="user in users">
-            <td class="username">
-              <router-link :to="{name: 'UserById', params: {id: user._id}}">
-                {{ user.username }}
-              </router-link>
-            </td>
-            <td>
-              {{ user.firstName }}
-            </td>
-            <td>
-              {{ user.lastName }}
-            </td>
-            <td>
-              {{ user.email }}
-            </td>
-            <td>
-              {{ user.phoneNumber }}
-            </td>
-            <td>
-              {{ getDate(user.nextEventDate) }}
-            </td>
-            <td>
-              {{ user.eventsCount }}
-            </td>
-          </tr>
-        </table>
+        <div  class="table-wrapper">
+          <table>
+            <tr>
+              <th>
+                Username
+              </th>
+              <th>
+                First name
+              </th>
+              <th>
+                Last name
+              </th>
+              <th>
+                Email
+              </th>
+              <th>
+                Phone number
+              </th>
+              <th>
+                Next event date
+              </th>
+              <th>
+                Events count
+              </th>
+            </tr>
+            <tr v-for="user in users">
+              <td class="username">
+                <router-link :to="{name: 'UserById', params: {id: user._id}}">
+                  {{ user.username }}
+                </router-link>
+              </td>
+              <td>
+                {{ user.firstName }}
+              </td>
+              <td>
+                {{ user.lastName }}
+              </td>
+              <td>
+                {{ user.email }}
+              </td>
+              <td>
+                {{ user.phoneNumber }}
+              </td>
+              <td>
+                {{ getDate(user.nextEventDate) }}
+              </td>
+              <td>
+                {{ user.eventsCount }}
+              </td>
+            </tr>
+          </table>
+        </div>
         <ul v-if="pages > 1" class="pages-list">
           <li class="pages-list" :class="{active: index === currentPage}" v-for="(_, index) in pagesList">
             <button @click="this.currentPage = index" class="standard">
@@ -332,7 +334,13 @@ section {
 
 
 .users-wrapper {
+
+}
+
+.table-wrapper {
   margin-top: 20px;
+  width: 100%;
+  overflow-x: auto;
 }
 
 .username {
