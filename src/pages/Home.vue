@@ -376,6 +376,10 @@ section {
   padding: 1rem;
 }
 
+section > div {
+  margin-top: 10vh;
+}
+
 .label-name {
   &:hover {
     color: green;
