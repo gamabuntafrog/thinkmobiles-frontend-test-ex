@@ -172,7 +172,7 @@ export default {
       isEventsLoading: true,
       isEventsLoadingError: false,
       pages: 0,
-      currentPage: this.$route.query.page || 0,
+      currentPage: Number(this.$route.query.page) || 0,
       sortBy: null,
       variant: 'desc',
       eventForm: {
@@ -238,6 +238,10 @@ export default {
           }
         });
 
+        if (data.pages && this.currentPage > data.pages - 1) {
+          return await router.push({to: `/user/${this.$route.params.id}`, query: {page: data.pages - 1}})
+        }
+
         this.events = data.events;
         this.pages = data.pages;
         this.isEventsLoadingError = false;
@@ -287,7 +291,7 @@ export default {
       }).format(new Date(date))
     },
     changePage(page) {
-      this.currentPage = page;
+      this.$router.push({path: `/user/${this.$route.params.id}`, query:{page: page}})
     },
     changeSortingField(fieldName) {
       this.variant = this.variant === 'asc' && this.sortBy === fieldName ? 'desc' : 'asc';
@@ -295,8 +299,14 @@ export default {
     }
   },
   watch: {
-    currentPage(page) {
-      router.push({query: { page: page}})
+    '$route' (to) {
+      if (to.query.page) {
+        this.currentPage = Number(to.query.page);
+      } else {
+        this.currentPage = 0;
+      }
+    },
+    currentPage() {
       this.getEvents()
     },
     variant() {
@@ -335,7 +345,6 @@ export default {
   mounted() {
     this.getUser()
     this.getEvents()
-    router.push({query: { page: 0 }})
   },
 
 }

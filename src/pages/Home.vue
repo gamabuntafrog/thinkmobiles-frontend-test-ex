@@ -164,6 +164,7 @@ import useVuelidate from "@vuelidate/core";
 import {required, email, minLength, maxLength, numeric, helpers} from '@vuelidate/validators'
 import axios from "../api";
 import arrowDown from '../assets/arrow-down.svg';
+import router from "@/router";
 
 export default {
   name: 'Home',
@@ -221,7 +222,7 @@ export default {
       },
       users: [],
       pages: 0,
-      currentPage: 0,
+      currentPage: Number(this.$route.query.page) || 0,
       isUsersLoading: true,
       isUsersError: false,
       sortBy: null,
@@ -263,7 +264,9 @@ export default {
           }
         });
 
-        console.log(data)
+        if (data.pages && this.currentPage > data.pages - 1) {
+          return await router.push({to: `/user/${this.$route.params.id}`, query: {page: data.pages - 1}})
+        }
 
         this.users = data.users;
         this.pages = data.pages;
@@ -295,7 +298,7 @@ export default {
       }).format(new Date(date))
     },
     changePage(page) {
-      this.currentPage = page;
+      this.$router.push({path:'/', query:{page: page}})
     },
     changeSortingField(fieldName) {
       this.variant = this.variant === 'asc' && this.sortBy === fieldName ? 'desc' : 'asc';
@@ -306,6 +309,13 @@ export default {
     this.getUsers()
   },
   watch: {
+    '$route' (to) {
+      if (to.query.page) {
+        this.currentPage = Number(to.query.page);
+      } else {
+        this.currentPage = 0;
+      }
+    },
     currentPage() {
       this.getUsers()
     },

@@ -58,30 +58,22 @@ const router = createRouter({
 const DEFAULT_TITLE = 'V';
 
 router.beforeEach((to, from, next) => {
-    function definingRoutes() {
-        const isLoggedInOnFirstView = store.state.token;
-        const isLoggedIn = store.state.isLoggedIn;
-        const isUserLoading = store.state.isUserLoading;
+    const isLoggedInOnFirstView = store.state.token;
+    const isLoggedIn = store.state.isLoggedIn;
+    const isUserLoading = store.state.isUserLoading;
 
-        const isHiddenForAuth = to.matched.some(record => record.meta.hiddenForAuth)
-        const isHiddenForNotAuth = to.matched.some(record => record.meta.hiddenForNotAuth)
+    const isHiddenForAuth = to.matched.some(record => record.meta.hiddenForAuth)
+    const isHiddenForNotAuth = to.matched.some(record => record.meta.hiddenForNotAuth)
 
-        document.title = to?.meta?.title || DEFAULT_TITLE;
+    document.title = to?.meta?.title || DEFAULT_TITLE;
 
-        if (isHiddenForAuth && isLoggedIn) {
-            next({path: '/'})
-            return;
-        }
-
-        if (isHiddenForNotAuth && isUserLoading && !isLoggedInOnFirstView) {
-            next({path: '/'})
-            return;
-        }
-
-        next()
+    if (isHiddenForNotAuth && isUserLoading && !isLoggedInOnFirstView) {
+        next({path: '/'})
+        return;
     }
 
-    definingRoutes()
+    next()
+
 });
 
 export default router
