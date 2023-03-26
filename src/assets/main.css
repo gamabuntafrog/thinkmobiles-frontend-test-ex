@@ -14,7 +14,8 @@
 
 }
 section {
-    height: calc(100% - 55px);
+    height: calc(100dvh - 140px);
+    min-height: 500px;
 
 }
 
@@ -34,8 +35,8 @@ a {
         padding: 1rem;
     }
     section {
-        height: calc(100% - 90px);
-
+        height: calc(100dvh - 140px);
+        min-height: 500px;
     }
     #app {
         padding: 1rem;
