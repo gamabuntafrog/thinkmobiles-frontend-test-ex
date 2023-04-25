@@ -117,6 +117,10 @@ td {
   cursor: default;
 }
 
+#shadow-host-companion {
+  display: none;
+}
+
 @media (max-width: 768px) {
   .reminder {
     font-size: 12px;
