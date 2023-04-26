@@ -1,9 +1,9 @@
 <script>
-import Header from "./components/Header.vue";
+import HeaderComponent from './components/Header.vue'
 
 export default {
   components: {
-    Header
+    HeaderComponent
   },
   beforeCreate() {
     this.$store.commit('initStore')
@@ -14,13 +14,11 @@ export default {
 <template>
   <div class="app-wrapper">
     <div class="loader" v-if="$store.state.isUserLoading">
-      <h1>
-        Loading...
-      </h1>
+      <h1>Loading...</h1>
     </div>
-    <div style="height: 100%;" v-else>
-      <Header/>
-      <RouterView/>
+    <div style="height: 100%" v-else>
+      <HeaderComponent />
+      <RouterView />
     </div>
   </div>
 </template>
@@ -55,7 +53,6 @@ input.standard {
 
 input:focus.standard {
   border: 2px solid var(--vt-c-divider-dark-1);
-
 }
 
 table {
@@ -65,7 +62,6 @@ table {
 th {
   padding: 8px;
   color: green;
-
 }
 
 td {
@@ -132,6 +128,5 @@ td {
 }
 
 @media (min-width: 1024px) {
-
 }
 </style>

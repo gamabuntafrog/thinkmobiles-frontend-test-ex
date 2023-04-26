@@ -2,78 +2,72 @@
   <section>
     <div v-if="$store.state.isLoggedIn">
       <h1>Home</h1>
-      <button v-if="!isFormOpen" class="standard" @click="isFormOpen = true">
-        Create user
-      </button>
-      <button v-else class="standard" @click="isFormOpen = false">
-        Close
-      </button>
+      <button v-if="!isFormOpen" class="standard" @click="isFormOpen = true">Create user</button>
+      <button v-else class="standard" @click="isFormOpen = false">Close</button>
       <div class="form-wrapper" v-if="isFormOpen">
         <h2>Creating User</h2>
         <form @submit.prevent="submitForm">
           <div class="input-wrapper">
-            <label :class="{error: v$.userForm.username?.$errors[0]}" for="username">
+            <label :class="{ error: v$.userForm.username?.$errors[0] }" for="username">
               {{ v$.userForm.username?.$errors[0]?.$message || 'Username' }}
             </label>
             <input
-                v-model="userForm.username"
-                @blur="v$.userForm.username.$touch"
-                type="text"
-                id="username"
-                class="standard"
-            >
+              v-model="userForm.username"
+              @blur="v$.userForm.username.$touch"
+              type="text"
+              id="username"
+              class="standard"
+            />
           </div>
           <div class="input-wrapper">
-            <label :class="{error: v$.userForm.firstName?.$errors[0]}" for="firstName">
+            <label :class="{ error: v$.userForm.firstName?.$errors[0] }" for="firstName">
               {{ v$.userForm.firstName?.$errors[0]?.$message || 'First name' }}
             </label>
             <input
-                v-model="userForm.firstName"
-                @blur="v$.userForm.firstName.$touch"
-                type="text"
-                id="firstName"
-                class="standard"
-            >
+              v-model="userForm.firstName"
+              @blur="v$.userForm.firstName.$touch"
+              type="text"
+              id="firstName"
+              class="standard"
+            />
           </div>
           <div class="input-wrapper">
-            <label :class="{error: v$.userForm.lastName?.$errors[0]}" for="lastName">
+            <label :class="{ error: v$.userForm.lastName?.$errors[0] }" for="lastName">
               {{ v$.userForm.lastName?.$errors[0]?.$message || 'Last name' }}
             </label>
             <input
-                v-model="userForm.lastName"
-                @blur="v$.userForm.lastName.$touch"
-                type="text"
-                id="lastName"
-                class="standard"
-            >
+              v-model="userForm.lastName"
+              @blur="v$.userForm.lastName.$touch"
+              type="text"
+              id="lastName"
+              class="standard"
+            />
           </div>
           <div class="input-wrapper">
-            <label :class="{error: v$.userForm.email?.$errors[0]}" for="email">
+            <label :class="{ error: v$.userForm.email?.$errors[0] }" for="email">
               {{ v$.userForm.email?.$errors[0]?.$message || 'Email' }}
             </label>
             <input
-                v-model="userForm.email"
-                @blur="v$.userForm.email.$touch"
-                type="email"
-                id="email"
-                class="standard"
-            >
+              v-model="userForm.email"
+              @blur="v$.userForm.email.$touch"
+              type="email"
+              id="email"
+              class="standard"
+            />
           </div>
           <div class="input-wrapper">
-            <label :class="{error: v$.userForm.phoneNumber?.$errors[0]}" for="phoneNumber">
+            <label :class="{ error: v$.userForm.phoneNumber?.$errors[0] }" for="phoneNumber">
               {{ v$.userForm.phoneNumber?.$errors[0]?.$message || 'Phone number' }}
             </label>
             <input
-                v-model="userForm.phoneNumber"
-                @blur="v$.userForm.phoneNumber.$touch"
-                type="tel"
-                id="phoneNumber"
-                class="standard"
-            >
+              v-model="userForm.phoneNumber"
+              @blur="v$.userForm.phoneNumber.$touch"
+              type="tel"
+              id="phoneNumber"
+              class="standard"
+            />
           </div>
-          <button type="submit" class="standard submit">
-            Create
-          </button>
+          <button type="submit" class="standard submit">Create</button>
         </form>
       </div>
       <div v-if="users.length && !isUsersLoading" class="users-wrapper">
@@ -81,27 +75,28 @@
           <table>
             <tr>
               <th
-                  v-for="item in lablesList"
-                  @click="changeSortingField(item.fieldName)"
+                :key="item.label"
+                v-for="item in lablesList"
+                @click="changeSortingField(item.fieldName)"
               >
                 <div class="label-wrapper">
-                  <p class="label-name" :class="{active: sortBy === item.fieldName}">
+                  <p class="label-name" :class="{ active: sortBy === item.fieldName }">
                     {{ item.label }}
                   </p>
                   <button v-if="sortBy === item.fieldName" class="arrow-wrapper">
                     <img
-                        v-if="variant === 'desc'"
-                        src="../assets/arrow-down.svg"
-                        alt="arrow down"
+                      v-if="variant === 'desc'"
+                      src="../assets/arrow-down.svg"
+                      alt="arrow down"
                     />
-                    <img v-else src="../assets/arrow-top.svg" alt="arrow down"/>
+                    <img v-else src="../assets/arrow-top.svg" alt="arrow down" />
                   </button>
                 </div>
               </th>
             </tr>
-            <tr v-for="user in users">
+            <tr v-for="user in users" :key="user._id">
               <td class="username">
-                <router-link :to="{name: 'UserById', params: {id: user._id}}">
+                <router-link :to="{ name: 'UserById', params: { id: user._id } }">
                   {{ user.username }}
                 </router-link>
               </td>
@@ -125,12 +120,15 @@
               </td>
             </tr>
           </table>
-          <p class="reminder">
-            *Click on the field name in table head for sorting;
-          </p>
+          <p class="reminder">*Click on the field name in table head for sorting;</p>
         </div>
         <ul v-if="pages > 1" class="pages-list">
-          <li class="pages-list" :class="{active: index === currentPage}" v-for="(page, index) in pagesList">
+          <li
+            class="pages-list"
+            :class="{ active: index === currentPage }"
+            v-for="(page, index) in pagesList"
+            :key="index"
+          >
             <button @click="changePage(index)" class="standard">
               {{ page }}
             </button>
@@ -138,33 +136,24 @@
         </ul>
       </div>
       <div v-else-if="isUsersLoading">
-        <h2 style="margin: 50px">
-          Loading users...
-        </h2>
+        <h2 style="margin: 50px">Loading users...</h2>
       </div>
       <div v-else-if="isUsersError">
-        <h2 style="margin: 50px">
-          Error
-        </h2>
+        <h2 style="margin: 50px">Error</h2>
       </div>
       <div v-else>
-        <h2 style="margin: 50px">
-          Table is clear, you can add users in form above
-        </h2>
+        <h2 style="margin: 50px">Table is clear, you can add users in form above</h2>
       </div>
     </div>
-    <h1 v-else style="font-size: 50px">
-      Hello, please login
-    </h1>
+    <h1 v-else style="font-size: 50px">Hello, please login</h1>
   </section>
 </template>
 
 <script>
-import useVuelidate from "@vuelidate/core";
-import {required, email, minLength, maxLength, numeric, helpers} from '@vuelidate/validators'
-import axios from "../api";
-import arrowDown from '../assets/arrow-down.svg';
-import router from "@/router";
+import useVuelidate from '@vuelidate/core'
+import { required, email, minLength, maxLength, numeric, helpers } from '@vuelidate/validators'
+import axios from '../api'
+import router from '@/router'
 
 export default {
   name: 'Home',
@@ -175,7 +164,7 @@ export default {
   },
   computed: {
     pagesList() {
-      return Array.from({length: this.pages}, (v, index) => index + 1)
+      return Array.from({ length: this.pages }, (v, index) => index + 1)
     },
     lablesList() {
       return [
@@ -206,7 +195,7 @@ export default {
         {
           fieldName: 'eventsCount',
           label: 'Events count'
-        },
+        }
       ]
     }
   },
@@ -232,53 +221,55 @@ export default {
   methods: {
     async submitForm() {
       const tryValidate = await this.v$.$validate()
-      if (!tryValidate) return;
+      if (!tryValidate) return
 
-      const formData = this.userForm;
+      const formData = this.userForm
 
-      this.isFormOpen = false;
-      this.resetForm();
+      this.isFormOpen = false
+      this.resetForm()
 
       try {
         await axios.post('users', formData)
 
-        await this.getUsers();
+        await this.getUsers()
       } catch (e) {
         alert(`Error: ${e?.response?.data?.message || 'Error'}`)
 
         console.log(e)
       }
-
     },
     async getUsers() {
-      if (!this.$store.state.isLoggedIn) return;
+      if (!this.$store.state.isLoggedIn) return
 
       try {
-        this.isUsersLoading = true;
+        this.isUsersLoading = true
 
-        const {data} = await axios.get('users', {
+        const { data } = await axios.get('users', {
           params: {
             page: this.currentPage,
             sortBy: this.sortBy,
             variant: this.variant
           }
-        });
+        })
 
         if (data.pages && this.currentPage > data.pages - 1) {
-          return await router.push({to: `/user/${this.$route.params.id}`, query: {page: data.pages - 1}})
+          return await router.push({
+            to: `/user/${this.$route.params.id}`,
+            query: { page: data.pages - 1 }
+          })
         }
 
-        this.users = data.users;
-        this.pages = data.pages;
-        this.isUsersError = false;
+        this.users = data.users
+        this.pages = data.pages
+        this.isUsersError = false
 
         console.log(this.pagesList)
       } catch (e) {
         console.log(e)
 
-        this.isUsersError = true;
+        this.isUsersError = true
       } finally {
-        this.isUsersLoading = false;
+        this.isUsersLoading = false
       }
     },
     resetForm() {
@@ -291,17 +282,17 @@ export default {
       }
     },
     getDate(date) {
-      if (!date) return 'Unknown';
+      if (!date) return 'Unknown'
 
       return new Intl.DateTimeFormat('en-us', {
-        dateStyle: 'short',
+        dateStyle: 'short'
       }).format(new Date(date))
     },
     changePage(page) {
-      this.$router.push({path:'/', query:{page: page}})
+      this.$router.push({ path: '/', query: { page: page } })
     },
     changeSortingField(fieldName) {
-      this.variant = this.variant === 'asc' && this.sortBy === fieldName ? 'desc' : 'asc';
+      this.variant = this.variant === 'asc' && this.sortBy === fieldName ? 'desc' : 'asc'
       this.sortBy = fieldName
     }
   },
@@ -309,11 +300,11 @@ export default {
     this.getUsers()
   },
   watch: {
-    '$route' (to) {
+    $route(to) {
       if (to.query.page) {
-        this.currentPage = Number(to.query.page);
+        this.currentPage = Number(to.query.page)
       } else {
-        this.currentPage = 0;
+        this.currentPage = 0
       }
     },
     currentPage() {
@@ -331,18 +322,36 @@ export default {
       userForm: {
         firstName: {
           required: helpers.withMessage('First name cannot be empty', required),
-          minLength: helpers.withMessage(({$params}) => `Min length of first name ${$params.min}`,  minLength(3)),
-          maxLength: helpers.withMessage(({$params}) => `Max length of first name ${$params.max}`,  maxLength(14)),
+          minLength: helpers.withMessage(
+            ({ $params }) => `Min length of first name ${$params.min}`,
+            minLength(3)
+          ),
+          maxLength: helpers.withMessage(
+            ({ $params }) => `Max length of first name ${$params.max}`,
+            maxLength(14)
+          )
         },
         lastName: {
           required: helpers.withMessage('Last name cannot be empty', required),
-          minLength: helpers.withMessage(({$params}) => `Min length of last name ${$params.min}`,  minLength(3)),
-          maxLength: helpers.withMessage(({$params}) => `Max length of last name ${$params.max}`,  maxLength(14)),
+          minLength: helpers.withMessage(
+            ({ $params }) => `Min length of last name ${$params.min}`,
+            minLength(3)
+          ),
+          maxLength: helpers.withMessage(
+            ({ $params }) => `Max length of last name ${$params.max}`,
+            maxLength(14)
+          )
         },
         username: {
           required: helpers.withMessage('Username cannot be empty', required),
-          minLength: helpers.withMessage(({$params}) => `Min length of username ${$params.min}`,  minLength(3)),
-          maxLength: helpers.withMessage(({$params}) => `Max length of username ${$params.max}`,  maxLength(16)),
+          minLength: helpers.withMessage(
+            ({ $params }) => `Min length of username ${$params.min}`,
+            minLength(3)
+          ),
+          maxLength: helpers.withMessage(
+            ({ $params }) => `Max length of username ${$params.max}`,
+            maxLength(16)
+          )
         },
         email: {
           required: helpers.withMessage('Email cannot be empty', required),
@@ -359,8 +368,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-
-
 .form-wrapper {
   padding: 8px;
 }
@@ -372,13 +379,11 @@ form {
 .input-wrapper {
   margin-bottom: 8px;
   margin-top: 4px;
-
 }
 
 .submit {
   margin-top: 16px;
 }
-
 
 label {
   display: block;
@@ -407,8 +412,7 @@ section > div {
   display: flex;
   justify-content: center;
   align-items: center;
-  cursor: pointer
-
+  cursor: pointer;
 }
 
 p.active {
@@ -420,7 +424,6 @@ th {
 }
 
 .users-wrapper {
-
 }
 
 .table-wrapper {
@@ -436,7 +439,8 @@ th {
     font-weight: bolder;
   }
 
-  &:hover a, &:hover {
+  &:hover a,
+  &:hover {
     color: green;
   }
 }
@@ -449,10 +453,9 @@ th {
 }
 
 @media (max-width: 600px) {
-
-  td, th {
+  td,
+  th {
     padding: 3px;
   }
 }
-
 </style>
