@@ -296,7 +296,7 @@ export default {
       }
     },
     getDate(date) {
-      if (!date) return 'Unknown'
+      if (!date) return 'Невідомо'
 
       return new Intl.DateTimeFormat('en-us', {
         dateStyle: 'short'
