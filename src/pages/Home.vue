@@ -118,6 +118,11 @@
               <td>
                 {{ user.eventsCount }}
               </td>
+              <td style="border-top: none">
+                <button @click="deleteUser(user._id)" style="width: 100%" class="standard">
+                  Delete
+                </button>
+              </td>
             </tr>
           </table>
           <p class="reminder">*Click on the field name in table head for sorting;</p>
@@ -270,6 +275,15 @@ export default {
         this.isUsersError = true
       } finally {
         this.isUsersLoading = false
+      }
+    },
+    async deleteUser(userId) {
+      try {
+        await axios.delete(`users/${userId}`)
+
+        await this.getUsers()
+      } catch (e) {
+        console.log(e)
       }
     },
     resetForm() {

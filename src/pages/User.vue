@@ -6,9 +6,7 @@
           {{ user.username }}
         </h2>
         <div class="user-data">
-          <h3>
-            {{ user.lastName }} {{ user.firstName }}
-          </h3>
+          <h3>{{ user.lastName }} {{ user.firstName }}</h3>
           <h3>
             {{ user.email }}
           </h3>
@@ -21,61 +19,57 @@
         <button v-if="!isFormForEventsOpen" @click="isFormForEventsOpen = true" class="standard">
           Create event
         </button>
-        <button v-else @click="isFormForEventsOpen = false" class="standard">
-          Close form
-        </button>
+        <button v-else @click="isFormForEventsOpen = false" class="standard">Close form</button>
         <form v-if="isFormForEventsOpen" @submit.prevent="addEvent">
           <div class="input-wrapper">
-            <label :class="{error: v$.eventForm.title?.$errors[0]}" for="title">
+            <label :class="{ error: v$.eventForm.title?.$errors[0] }" for="title">
               {{ v$.eventForm.title?.$errors[0]?.$message || 'Title' }}
             </label>
             <input
-                @blur="v$.eventForm.title.$touch"
-                id="title"
-                v-model="eventForm.title"
-                type="text"
-                class="standard"
-            >
+              @blur="v$.eventForm.title.$touch"
+              id="title"
+              v-model="eventForm.title"
+              type="text"
+              class="standard"
+            />
           </div>
           <div class="input-wrapper">
-            <label :class="{error: v$.eventForm.description?.$errors[0]}" for="description">
+            <label :class="{ error: v$.eventForm.description?.$errors[0] }" for="description">
               {{ v$.eventForm.description?.$errors[0]?.$message || 'Description' }}
             </label>
             <input
-                @blur="v$.eventForm.description.$touch"
-                id="description"
-                v-model="eventForm.description"
-                type="text"
-                class="standard"
-            >
+              @blur="v$.eventForm.description.$touch"
+              id="description"
+              v-model="eventForm.description"
+              type="text"
+              class="standard"
+            />
           </div>
           <div class="input-wrapper">
-            <label :class="{error: v$.eventForm.startDate?.$errors[0]}" for="startDate">
+            <label :class="{ error: v$.eventForm.startDate?.$errors[0] }" for="startDate">
               {{ v$.eventForm.startDate?.$errors[0]?.$message || 'Start date' }}
             </label>
             <input
-                @blur="v$.eventForm.startDate.$touch"
-                id="startDate"
-                v-model="eventForm.startDate"
-                type="date"
-                class="standard"
-            >
+              @blur="v$.eventForm.startDate.$touch"
+              id="startDate"
+              v-model="eventForm.startDate"
+              type="date"
+              class="standard"
+            />
           </div>
           <div class="input-wrapper">
-            <label :class="{error: v$.eventForm.endDate?.$errors[0]}" for="endDate">
+            <label :class="{ error: v$.eventForm.endDate?.$errors[0] }" for="endDate">
               {{ v$.eventForm.endDate?.$errors[0]?.$message || 'End date' }}
             </label>
             <input
-                @blur="v$.eventForm.endDate.$touch"
-                id="endDate"
-                v-model="eventForm.endDate"
-                type="date"
-                class="standard"
-            >
+              @blur="v$.eventForm.endDate.$touch"
+              id="endDate"
+              v-model="eventForm.endDate"
+              type="date"
+              class="standard"
+            />
           </div>
-          <button type="submit" class="standard submit">
-            Submit event
-          </button>
+          <button type="submit" class="standard submit">Submit event</button>
         </form>
       </div>
       <div v-if="events.length > 0 && !isEventsLoading" class="events-wrapper">
@@ -83,25 +77,26 @@
           <table>
             <tr>
               <th
-                  v-for="item in lablesList"
-                  @click="changeSortingField(item.fieldName)"
+                v-for="item in lablesList"
+                :key="item.label"
+                @click="changeSortingField(item.fieldName)"
               >
                 <div class="label-wrapper">
-                  <p class="label-name" :class="{active: sortBy === item.fieldName}">
+                  <p class="label-name" :class="{ active: sortBy === item.fieldName }">
                     {{ item.label }}
                   </p>
                   <button v-if="sortBy === item.fieldName" class="arrow-wrapper">
                     <img
-                        v-if="variant === 'desc'"
-                        src="../assets/arrow-down.svg"
-                        alt="arrow down"
+                      v-if="variant === 'desc'"
+                      src="../assets/arrow-down.svg"
+                      alt="arrow down"
                     />
-                    <img v-else src="../assets/arrow-top.svg" alt="arrow down"/>
+                    <img v-else src="../assets/arrow-top.svg" alt="arrow down" />
                   </button>
                 </div>
               </th>
             </tr>
-            <tr v-for="event in events">
+            <tr v-for="event in events" :key="event._id">
               <td>
                 {{ event.title }}
               </td>
@@ -109,20 +104,24 @@
                 {{ event.description }}
               </td>
               <td>
-                {{
-                  getDate(event.startDate)
-                }}
+                {{ getDate(event.startDate) }}
               </td>
               <td>
-                {{
-                  getDate(event.endDate)
-                }}
+                {{ getDate(event.endDate) }}
+              </td>
+              <td style="border-top: none">
+                <button @click="deleteEvent(event._id)" style="width: 100%" class="standard">Delete</button>
               </td>
             </tr>
           </table>
         </div>
         <ul v-if="pages > 1" class="pages-list">
-          <li class="pages-list" :class="{active: index === currentPage}" v-for="(page, index) in pagesList">
+          <li
+            class="pages-list"
+            :class="{ active: index === currentPage }"
+            v-for="(page, index) in pagesList"
+            :key="index"
+          >
             <button @click="changePage(index)" class="standard">
               {{ page }}
             </button>
@@ -130,14 +129,10 @@
         </ul>
       </div>
       <div v-else-if="isEventsLoading">
-        <h1 style="padding: 20px;">
-          Loading events...
-        </h1>
+        <h1 style="padding: 20px">Loading events...</h1>
       </div>
       <div v-else>
-        <h2 style="margin: 50px">
-          Table is clear, you can add events in form above
-        </h2>
+        <h2 style="margin: 50px">Table is clear, you can add events in form above</h2>
       </div>
     </div>
     <div v-else-if="isUserLoading || isEventsLoading">
@@ -150,10 +145,19 @@
 </template>
 
 <script>
-import axios from "../api";
-import {email, helpers, maxLength, maxValue, minLength, minValue, numeric, required} from "@vuelidate/validators";
-import useVuelidate from "@vuelidate/core";
-import router from "@/router";
+import axios from '../api'
+import {
+  email,
+  helpers,
+  maxLength,
+  maxValue,
+  minLength,
+  minValue,
+  numeric,
+  required
+} from '@vuelidate/validators'
+import useVuelidate from '@vuelidate/core'
+import router from '@/router'
 
 export default {
   name: 'UserById',
@@ -185,7 +189,7 @@ export default {
   },
   computed: {
     pagesList() {
-      return Array.from({length: this.pages}, (v, index) => index + 1)
+      return Array.from({ length: this.pages }, (v, index) => index + 1)
     },
     lablesList() {
       return [
@@ -204,18 +208,18 @@ export default {
         {
           label: 'End date',
           fieldName: 'endDate'
-        },
+        }
       ]
     }
   },
   methods: {
     async getUser() {
       try {
-        const id = this.$route.params.id;
-        const {data} = await axios.get(`users/${id}`);
+        const id = this.$route.params.id
+        const { data } = await axios.get(`users/${id}`)
 
         console.log(data)
-        this.user = data.user;
+        this.user = data.user
         this.isUserLoadingError = false
       } catch (e) {
         console.log(e)
@@ -227,24 +231,27 @@ export default {
     },
     async getEvents() {
       try {
-        this.isEventsLoading = true;
-        const id = this.$route.params.id;
+        this.isEventsLoading = true
+        const id = this.$route.params.id
 
-        const {data} = await axios.get(`events/users/${id}`, {
+        const { data } = await axios.get(`events/users/${id}`, {
           params: {
             page: this.currentPage,
             sortBy: this.sortBy,
             variant: this.variant
           }
-        });
+        })
 
         if (data.pages && this.currentPage > data.pages - 1) {
-          return await router.push({to: `/user/${this.$route.params.id}`, query: {page: data.pages - 1}})
+          return await router.push({
+            to: `/user/${this.$route.params.id}`,
+            query: { page: data.pages - 1 }
+          })
         }
 
-        this.events = data.events;
-        this.pages = data.pages;
-        this.isEventsLoadingError = false;
+        this.events = data.events
+        this.pages = data.pages
+        this.isEventsLoadingError = false
       } catch (e) {
         console.log(e)
 
@@ -255,9 +262,9 @@ export default {
     },
     async addEvent() {
       const tryValidate = await this.v$.$validate()
-      if (!tryValidate) return;
+      if (!tryValidate) return
 
-      const formData = this.eventForm;
+      const formData = this.eventForm
 
       formData.startDate = new Date(formData.startDate)
       formData.endDate = new Date(formData.endDate)
@@ -265,15 +272,24 @@ export default {
       try {
         await axios.post(`events/users/${this.user._id}/validateDate`, formData)
 
-        this.isFormForEventsOpen = false;
-        this.resetForm();
+        this.isFormForEventsOpen = false
+        this.resetForm()
 
         await axios.post(`events/users/${this.user._id}`, formData)
 
-        await this.getUser();
-        await this.getEvents();
+        await this.getUser()
+        await this.getEvents()
       } catch (e) {
+        console.log(e)
+      }
+    },
+    async deleteEvent(eventId) {
+      try {
+        await axios.delete(`events/${eventId}/users/${this.user._id}`)
 
+        await this.getUser()
+        await this.getEvents()
+      } catch (e) {
         console.log(e)
       }
     },
@@ -287,23 +303,23 @@ export default {
     },
     getDate(date) {
       return new Intl.DateTimeFormat('en-us', {
-        dateStyle: 'short',
+        dateStyle: 'short'
       }).format(new Date(date))
     },
     changePage(page) {
-      this.$router.push({path: `/user/${this.$route.params.id}`, query:{page: page}})
+      this.$router.push({ path: `/user/${this.$route.params.id}`, query: { page: page } })
     },
     changeSortingField(fieldName) {
-      this.variant = this.variant === 'asc' && this.sortBy === fieldName ? 'desc' : 'asc';
+      this.variant = this.variant === 'asc' && this.sortBy === fieldName ? 'desc' : 'asc'
       this.sortBy = fieldName
     }
   },
   watch: {
-    '$route' (to) {
+    $route(to) {
       if (to.query.page) {
-        this.currentPage = Number(to.query.page);
+        this.currentPage = Number(to.query.page)
       } else {
-        this.currentPage = 0;
+        this.currentPage = 0
       }
     },
     currentPage() {
@@ -321,40 +337,46 @@ export default {
       eventForm: {
         title: {
           required: helpers.withMessage('Title cannot be empty', required),
-          minLength: helpers.withMessage(({$params}) => `Min length of title ${$params.min}`,  minLength(3)),
-          maxLength: helpers.withMessage(({$params}) => `Max length of title ${$params.max}`,  maxLength(30)),
+          minLength: helpers.withMessage(
+            ({ $params }) => `Min length of title ${$params.min}`,
+            minLength(3)
+          ),
+          maxLength: helpers.withMessage(
+            ({ $params }) => `Max length of title ${$params.max}`,
+            maxLength(30)
+          )
         },
         description: {
-          maxLength: helpers.withMessage(({$params}) => `Max length of description ${$params.max}`,  maxLength(60)),
+          maxLength: helpers.withMessage(
+            ({ $params }) => `Max length of description ${$params.max}`,
+            maxLength(60)
+          )
         },
         startDate: {
           required: helpers.withMessage('Start date cannot be empty', required),
           maxValue(value) {
-            return new Date(this.eventForm.endDate) > new Date(value);
+            return new Date(this.eventForm.endDate) > new Date(value)
           }
         },
         endDate: {
           required: helpers.withMessage('End date cannot be empty', required),
           minValue(value) {
-            return new Date(this.eventForm.startDate) < new Date(value);
+            return new Date(this.eventForm.startDate) < new Date(value)
           }
-        },
+        }
       }
     }
   },
   mounted() {
     this.getUser()
     this.getEvents()
-  },
-
+  }
 }
 </script>
 
 <style lang="scss" scoped>
-
 th {
   padding: 12px;
-
 }
 
 td {
@@ -392,7 +414,6 @@ form {
 .input-wrapper {
   margin-bottom: 8px;
   margin-top: 4px;
-
 }
 
 .label-name {
@@ -405,8 +426,7 @@ form {
   display: flex;
   justify-content: center;
   align-items: center;
-  cursor: pointer
-
+  cursor: pointer;
 }
 
 p.active {
@@ -442,10 +462,9 @@ table {
 }
 
 @media (max-width: 600px) {
-
-  td, th {
+  td,
+  th {
     padding: 3px;
   }
 }
-
 </style>
