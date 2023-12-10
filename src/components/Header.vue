@@ -4,20 +4,20 @@
       <img alt="Vue logo" class="logo" src="@/assets/logo.svg" width="50" height="50"/>
     </router-link>
     <nav v-if="$store.state.isLoggedIn">
-      <router-link class="home" to="/">Home</router-link>
+      <router-link class="home" to="/">Дім</router-link>
       <router-link class="router-link-exact-active" to="/">
         {{ this.$store.state.username }}
       </router-link>
       <router-link to="/" @click="logout">
         <button class="standard">
-          Exit
+          Вийти
         </button>
       </router-link>
     </nav>
     <nav v-else>
-      <router-link class="home" to="/">Home</router-link>
-      <router-link to="/login">Login</router-link>
-      <router-link to="/register">Register</router-link>
+      <router-link class="home" to="/">Дім</router-link>
+      <router-link to="/login">Увійти</router-link>
+      <router-link to="/register">Реєстрація</router-link>
     </nav>
   </header>
 </template>

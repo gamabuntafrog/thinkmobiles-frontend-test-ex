@@ -17,13 +17,13 @@
       </div>
       <div>
         <button v-if="!isFormForEventsOpen" @click="isFormForEventsOpen = true" class="standard">
-          Create event
+          Створити подію
         </button>
-        <button v-else @click="isFormForEventsOpen = false" class="standard">Close form</button>
+        <button v-else @click="isFormForEventsOpen = false" class="standard">Закрити форму</button>
         <form v-if="isFormForEventsOpen" @submit.prevent="addEvent">
           <div class="input-wrapper">
             <label :class="{ error: v$.eventForm.title?.$errors[0] }" for="title">
-              {{ v$.eventForm.title?.$errors[0]?.$message || 'Title' }}
+              {{ v$.eventForm.title?.$errors[0]?.$message || 'Заголовок' }}
             </label>
             <input
               @blur="v$.eventForm.title.$touch"
@@ -35,7 +35,7 @@
           </div>
           <div class="input-wrapper">
             <label :class="{ error: v$.eventForm.description?.$errors[0] }" for="description">
-              {{ v$.eventForm.description?.$errors[0]?.$message || 'Description' }}
+              {{ v$.eventForm.description?.$errors[0]?.$message || 'Опис' }}
             </label>
             <input
               @blur="v$.eventForm.description.$touch"
@@ -47,7 +47,7 @@
           </div>
           <div class="input-wrapper">
             <label :class="{ error: v$.eventForm.startDate?.$errors[0] }" for="startDate">
-              {{ v$.eventForm.startDate?.$errors[0]?.$message || 'Start date' }}
+              {{ v$.eventForm.startDate?.$errors[0]?.$message || 'Початкова дата' }}
             </label>
             <input
               @blur="v$.eventForm.startDate.$touch"
@@ -59,7 +59,7 @@
           </div>
           <div class="input-wrapper">
             <label :class="{ error: v$.eventForm.endDate?.$errors[0] }" for="endDate">
-              {{ v$.eventForm.endDate?.$errors[0]?.$message || 'End date' }}
+              {{ v$.eventForm.endDate?.$errors[0]?.$message || 'Кінцева дата' }}
             </label>
             <input
               @blur="v$.eventForm.endDate.$touch"
@@ -69,7 +69,7 @@
               class="standard"
             />
           </div>
-          <button type="submit" class="standard submit">Submit event</button>
+          <button type="submit" class="standard submit">Додати подію</button>
         </form>
       </div>
       <div v-if="events.length > 0 && !isEventsLoading" class="events-wrapper">
@@ -110,7 +110,7 @@
                 {{ getDate(event.endDate) }}
               </td>
               <td style="border-top: none">
-                <button @click="deleteEvent(event._id)" style="width: 100%" class="standard">Delete</button>
+                <button @click="deleteEvent(event._id)" style="width: 100%" class="standard">Видалити</button>
               </td>
             </tr>
           </table>
@@ -129,17 +129,17 @@
         </ul>
       </div>
       <div v-else-if="isEventsLoading">
-        <h1 style="padding: 20px">Loading events...</h1>
+        <h1 style="padding: 20px">Завантаження подій користувача...</h1>
       </div>
       <div v-else>
-        <h2 style="margin: 50px">Table is clear, you can add events in form above</h2>
+        <h2 style="margin: 50px">Таблиця чиста, ви можете додати нові події в таблиці вище</h2>
       </div>
     </div>
     <div v-else-if="isUserLoading || isEventsLoading">
-      <h1>Loading...</h1>
+      <h1>Завантаження...</h1>
     </div>
     <div v-else>
-      <h1>Not found user</h1>
+      <h1>Користувач не знайдений</h1>
     </div>
   </section>
 </template>
@@ -194,19 +194,19 @@ export default {
     lablesList() {
       return [
         {
-          label: 'Title',
+          label: 'Заголовок',
           fieldName: 'title'
         },
         {
-          label: 'Description',
+          label: 'Опис',
           fieldName: 'description'
         },
         {
-          label: 'Start date',
+          label: 'Початкова дата',
           fieldName: 'startDate'
         },
         {
-          label: 'End date',
+          label: 'Кінцева дата',
           fieldName: 'endDate'
         }
       ]

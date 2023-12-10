@@ -1,15 +1,15 @@
 <template>
   <section>
     <div v-if="$store.state.isLoggedIn">
-      <h1>Home</h1>
-      <button v-if="!isFormOpen" class="standard" @click="isFormOpen = true">Create user</button>
-      <button v-else class="standard" @click="isFormOpen = false">Close</button>
+      <h1>Дім</h1>
+      <button v-if="!isFormOpen" class="standard" @click="isFormOpen = true">Додати користувачів</button>
+      <button v-else class="standard" @click="isFormOpen = false">Закрити</button>
       <div class="form-wrapper" v-if="isFormOpen">
-        <h2>Creating User</h2>
+        <h2>Додавання користувачів</h2>
         <form @submit.prevent="submitForm">
           <div class="input-wrapper">
             <label :class="{ error: v$.userForm.username?.$errors[0] }" for="username">
-              {{ v$.userForm.username?.$errors[0]?.$message || 'Username' }}
+              {{ v$.userForm.username?.$errors[0]?.$message || 'Нікнейм' }}
             </label>
             <input
               v-model="userForm.username"
@@ -21,7 +21,7 @@
           </div>
           <div class="input-wrapper">
             <label :class="{ error: v$.userForm.firstName?.$errors[0] }" for="firstName">
-              {{ v$.userForm.firstName?.$errors[0]?.$message || 'First name' }}
+              {{ v$.userForm.firstName?.$errors[0]?.$message || 'Ім`я' }}
             </label>
             <input
               v-model="userForm.firstName"
@@ -33,7 +33,7 @@
           </div>
           <div class="input-wrapper">
             <label :class="{ error: v$.userForm.lastName?.$errors[0] }" for="lastName">
-              {{ v$.userForm.lastName?.$errors[0]?.$message || 'Last name' }}
+              {{ v$.userForm.lastName?.$errors[0]?.$message || 'Призвіще' }}
             </label>
             <input
               v-model="userForm.lastName"
@@ -45,7 +45,7 @@
           </div>
           <div class="input-wrapper">
             <label :class="{ error: v$.userForm.email?.$errors[0] }" for="email">
-              {{ v$.userForm.email?.$errors[0]?.$message || 'Email' }}
+              {{ v$.userForm.email?.$errors[0]?.$message || 'Пошта' }}
             </label>
             <input
               v-model="userForm.email"
@@ -57,7 +57,7 @@
           </div>
           <div class="input-wrapper">
             <label :class="{ error: v$.userForm.phoneNumber?.$errors[0] }" for="phoneNumber">
-              {{ v$.userForm.phoneNumber?.$errors[0]?.$message || 'Phone number' }}
+              {{ v$.userForm.phoneNumber?.$errors[0]?.$message || 'Номер телефону' }}
             </label>
             <input
               v-model="userForm.phoneNumber"
@@ -67,7 +67,7 @@
               class="standard"
             />
           </div>
-          <button type="submit" class="standard submit">Create</button>
+          <button type="submit" class="standard submit">Додати</button>
         </form>
       </div>
       <div v-if="users.length && !isUsersLoading" class="users-wrapper">
@@ -120,12 +120,12 @@
               </td>
               <td style="border-top: none">
                 <button @click="deleteUser(user._id)" style="width: 100%" class="standard">
-                  Delete
+                  Видалити
                 </button>
               </td>
             </tr>
           </table>
-          <p class="reminder">*Click on the field name in table head for sorting;</p>
+          <p class="reminder">*Нажимайте по назві поля для сортування;</p>
         </div>
         <ul v-if="pages > 1" class="pages-list">
           <li
@@ -141,16 +141,16 @@
         </ul>
       </div>
       <div v-else-if="isUsersLoading">
-        <h2 style="margin: 50px">Loading users...</h2>
+        <h2 style="margin: 50px">Завантаження користувачів...</h2>
       </div>
       <div v-else-if="isUsersError">
-        <h2 style="margin: 50px">Error</h2>
+        <h2 style="margin: 50px">Помилка</h2>
       </div>
       <div v-else>
-        <h2 style="margin: 50px">Table is clear, you can add users in form above</h2>
+        <h2 style="margin: 50px">Таблиця чиста, ви можете додати користувачів</h2>
       </div>
     </div>
-    <h1 v-else style="font-size: 50px">Hello, please login</h1>
+    <h1 v-else style="font-size: 50px">Доброго дня, увійдіть у аккаунт</h1>
   </section>
 </template>
 
@@ -175,31 +175,31 @@ export default {
       return [
         {
           fieldName: 'username',
-          label: 'Username'
+          label: 'Нікнейм'
         },
         {
           fieldName: 'firstName',
-          label: 'First name'
+          label: 'Ім`я'
         },
         {
           fieldName: 'lastName',
-          label: 'Last Name'
+          label: 'Призвіще'
         },
         {
           fieldName: 'email',
-          label: 'Email'
+          label: 'Пошта'
         },
         {
           fieldName: 'phoneNumber',
-          label: 'Phone number'
+          label: 'Номер телефону'
         },
         {
           fieldName: 'nextEventDate',
-          label: 'Next event date'
+          label: 'Дата наступної події'
         },
         {
           fieldName: 'eventsCount',
-          label: 'Events count'
+          label: 'Кількість подій'
         }
       ]
     }

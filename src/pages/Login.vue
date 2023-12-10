@@ -3,15 +3,15 @@
     <div class="container">
       <div class="left-container">
         <h1 v-if="!isLoading">
-          Login
+          Увійти
         </h1>
         <h1 v-else>
-          Loading...
+          Завантаження...
         </h1>
         <form @submit.prevent="submitForm">
           <div class="input-wrapper">
             <label :class="{error: v$.userForm.username?.$errors[0]}" for="username">
-              {{ v$.userForm.username?.$errors[0]?.$message || 'Username' }}
+              {{ v$.userForm.username?.$errors[0]?.$message || 'Нікнейм' }}
             </label>
             <input
                 v-model="userForm.username"
@@ -23,7 +23,7 @@
           </div>
           <div class="input-wrapper">
             <label :class="{error: v$.userForm.password?.$errors[0]}" for="password">
-              {{ v$.userForm.password?.$errors[0]?.$message || 'Password' }}
+              {{ v$.userForm.password?.$errors[0]?.$message || 'Пошта' }}
             </label>
             <input
                 v-model="userForm.password"
@@ -34,7 +34,7 @@
             >
           </div>
           <button type="submit" class="standard submit">
-            Submit
+            Увійти
           </button>
         </form>
       </div>
@@ -74,7 +74,7 @@ export default {
       this.isLoading = true;
 
       const formData = this.userForm;
-      console.log(formData)
+
       try {
 
         this.$store.commit('login', formData)
